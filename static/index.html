@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weena Loft — Premium Rental Management</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/static/favicon.svg">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+
+
+
+    <!-- Login Page -->
+    <div id="login-container" class="login-wrapper">
+        <div class="login-card">
+            <div class="login-header">
+                <div class="logo-icon"><i class="fa-solid fa-hotel"></i></div>
+                <h1>Weena Loft</h1>
+            </div>
+            <form id="login-form">
+                <div class="input-group">
+                    <label for="username"><i class="fa-solid fa-user"></i> Username</label>
+                    <input type="text" id="username" placeholder="florence or ralph" required autocomplete="off">
+                </div>
+                <div class="input-group">
+                    <label for="password"><i class="fa-solid fa-lock"></i> Password</label>
+                    <div style="position: relative; width: 100%;">
+                        <input type="password" id="password" placeholder="••••••••" required style="padding-right: 40px; width: 100%;">
+                        <span onclick="togglePasswordVisibility('password', this)" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); cursor: pointer; color: var(--text-muted); transition: var(--transition); z-index: 10;"><i class="fa-solid fa-eye"></i></span>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Sign In <i class="fa-solid fa-arrow-right-to-bracket"></i></button>
+            </form>
+            <div id="login-error" class="error-msg" style="display: none;"></div>
+        </div>
+    </div>
+
+    <!-- App Container (Hidden initially) -->
+    <div id="app-container" class="app-wrapper" style="display: none;">
+        
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-brand">
+                <span class="logo-icon"><i class="fa-solid fa-hotel"></i></span>
+                <div>
+                    <h1>Weena Loft</h1>
+                    <span class="sub-brand">Rental Management Engine</span>
+                </div>
+            </div>
+            <button id="menu-toggle-btn" class="menu-toggle-btn" title="Toggle Navigation"><i class="fa-solid fa-bars"></i></button>
+            <nav class="header-nav" id="header-nav">
+                <button class="nav-link active" data-tab="tab-dashboard"><i class="fa-solid fa-chart-line"></i> Dashboard</button>
+                <button class="nav-link" data-tab="tab-units"><i class="fa-solid fa-door-open"></i> Units</button>
+                <button class="nav-link" data-tab="tab-tenants"><i class="fa-solid fa-users"></i> Tenants</button>
+                <button class="nav-link" data-tab="tab-repairs"><i class="fa-solid fa-wrench"></i> Repairs</button>
+                <button class="nav-link" data-tab="tab-reminders"><i class="fa-solid fa-bell"></i> Reminders Log</button>
+                <button class="nav-link" data-tab="tab-profile"><i class="fa-solid fa-user-gear"></i> Profile Settings</button>
+                
+                <!-- Mobile User Section (visible only on mobile) -->
+                <div class="mobile-user-section">
+                    <div class="user-info-row" style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+                        <span class="user-avatar" id="mobile-user-avatar-initials">FO</span>
+                        <div class="user-info" style="display: flex; flex-direction: column;">
+                            <span class="user-name" id="mobile-user-display-name">Florence Osanya</span>
+                            <span class="user-role" id="mobile-user-display-role">Main Owner</span>
+                        </div>
+                    </div>
+                    <button id="mobile-logout-btn" class="btn btn-secondary btn-block" style="color: var(--danger); border-color: rgba(217, 4, 41, 0.2);"><i class="fa-solid fa-power-off"></i> Log Out</button>
+                </div>
+            </nav>
+            <div class="header-user">
+                <span class="user-avatar" id="user-avatar-initials">FO</span>
+                <div class="user-info">
+                    <span class="user-name" id="user-display-name">Florence Osanya</span>
+                    <span class="user-role" id="user-display-role">Main Owner</span>
+                </div>
+                <button id="logout-btn" class="btn-logout" title="Log Out"><i class="fa-solid fa-power-off"></i></button>
+            </div>
+        </header>
+
+        <!-- Main Body -->
+        <main class="app-main">
+
+            <!-- TAB 1: DASHBOARD -->
+            <section id="tab-dashboard" class="tab-pane active">
+                <div class="tab-header-actions" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; width: 100%;">
+                    <h2>Dashboard Overview</h2>
+                    <a href="/documentation" target="_blank" class="btn-docs-link" title="System Documentation" style="color: var(--text-muted); font-size: 1.3rem; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 8px; background: rgba(255,255,255,0.03); border: 1px solid var(--border-glass); transition: var(--transition);">
+                        <i class="fa-solid fa-file-invoice"></i>
+                    </a>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card card-glow-primary">
+                        <div class="stat-header">
+                            <span class="stat-title">Collected Rent (Current Month)</span>
+                            <span class="stat-icon"><i class="fa-solid fa-hand-holding-dollar"></i></span>
+                        </div>
+                        <div class="stat-value" id="stats-collected">KES 0</div>
+                        <div class="stat-desc" id="stats-expected-desc">Out of KES 0 expected</div>
+                    </div>
+                    
+                    <div class="stat-card card-glow-warning">
+                        <div class="stat-header">
+                            <span class="stat-title">Arrears / Outstanding</span>
+                            <span class="stat-icon"><i class="fa-solid fa-triangle-exclamation"></i></span>
+                        </div>
+                        <div class="stat-value" id="stats-arrears">KES 0</div>
+                        <div class="stat-desc" id="stats-arrears-desc">Includes 5% overdue penalty where applicable</div>
+                    </div>
+
+                    <div class="stat-card card-glow-info">
+                        <div class="stat-header">
+                            <span class="stat-title">Monthly Tax Obligation</span>
+                            <span class="stat-icon"><i class="fa-solid fa-percent"></i></span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: baseline;">
+                            <div class="stat-value" id="stats-tax">KES 0</div>
+                            <button id="btn-mark-tax-paid" class="btn btn-secondary btn-sm" onclick="markTaxPaid()" style="padding: 2px 8px; font-size: 0.75rem; background-color: var(--accent); color: white; display: none;">Mark Paid</button>
+                            <span id="tax-paid-badge" class="badge badge-success" style="display: none; font-size: 0.75rem; background-color: #2ec4b6; color: white;"><i class="fa-solid fa-circle-check"></i> Paid</span>
+                        </div>
+                        <div class="stat-desc">7.5% of expected monthly rent (KES 153,000)</div>
+                    </div>
+
+                    <div class="stat-card card-glow-success">
+                        <div class="stat-header">
+                            <span class="stat-title">Occupancy Rate</span>
+                            <span class="stat-icon"><i class="fa-solid fa-house-user"></i></span>
+                        </div>
+                        <div class="stat-value" id="stats-occupancy">0 / 14</div>
+                        <div class="stat-desc" id="stats-vacant-desc">0 units vacant</div>
+                    </div>
+                </div>
+
+                <div class="dashboard-body">
+                    <!-- Left: Recent Payments -->
+                    <div class="dashboard-panel">
+                        <div class="panel-header">
+                            <h2><i class="fa-solid fa-receipt"></i> Recent Bank Deposits</h2>
+                            <div style="display: flex; gap: 8px; align-items: center;">
+                                <span class="badge badge-success">Absa Queensway</span>
+                                <button id="btn-toggle-delete-payments" class="btn btn-secondary" style="padding: 5px 12px; font-size: 0.75rem;"><i class="fa-solid fa-trash"></i> Delete</button>
+                                <button id="btn-confirm-delete-payments" class="btn" style="padding: 5px 12px; font-size: 0.75rem; background: var(--danger); color: white; display: none;"><i class="fa-solid fa-check"></i> Confirm Delete</button>
+                                <button id="btn-cancel-delete-payments" class="btn btn-secondary" style="padding: 5px 12px; font-size: 0.75rem; display: none;"><i class="fa-solid fa-xmark"></i> Cancel</button>
+                            </div>
+                        </div>
+                        <div class="panel-content scrollable table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th class="col-select-pay" style="display:none; width: 30px;"><input type="checkbox" id="select-all-payments"></th>
+                                        <th>Tenant</th>
+                                        <th>Unit</th>
+                                        <th>Amount</th>
+                                        <th>Remaining</th>
+                                        <th>Note</th>
+                                        <th>Date</th>
+                                        <th>Late Fee</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="recent-payments-tbody">
+                                    <!-- Dynamic -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Right: Quick Actions & Owner Notification Reminders -->
+                    <div class="dashboard-panel panel-sidebar">
+                        <div class="panel-header">
+                            <h2><i class="fa-solid fa-paper-plane"></i> Quick Broadcasts</h2>
+                        </div>
+                        <div class="panel-content">
+                            <div class="action-card">
+                                <h3>Rent Reminders (1st of Month)</h3>
+                                <p>Sends due notifications to all active tenants reminding them of rent due before 7th.</p>
+                                <button id="btn-broadcast-rent" class="btn btn-secondary btn-block"><i class="fa-solid fa-message"></i> Broadcast Rent Reminder (1st)</button>
+                            </div>
+
+                            <div class="action-card">
+                                <h3>Late Rent Reminders (7th of Month)</h3>
+                                <p>Sends reminders warning tenants that a 5% late fee will be added after the 10th.</p>
+                                <button id="btn-broadcast-7th" class="btn btn-secondary btn-block" style="background-color: var(--warning); color: #fff;"><i class="fa-solid fa-triangle-exclamation"></i> Broadcast Late Reminder (7th)</button>
+                            </div>
+
+                            <div class="action-card">
+                                <h3>Landlord Tax Alerts (9th & 10th)</h3>
+                                <p>Mocks sending tax computation notifications (7.5%) to Florence and Ralph.</p>
+                                <button id="btn-broadcast-tax" class="btn btn-accent btn-block"><i class="fa-solid fa-bell"></i> Send Tax reminders</button>
+                            </div>
+
+                            <div class="action-card">
+                                <h3>Send Bank Payment Details</h3>
+                                <p>Sends Weena Loft Absa account details to all tenants. Strictly no M-Pesa.</p>
+                                <button id="btn-broadcast-bank" class="btn btn-primary btn-block"><i class="fa-solid fa-university"></i> Send Absa Payment Details</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 2: UNITS -->
+            <section id="tab-units" class="tab-pane">
+                <div class="tab-filter-bar">
+                    <h2>Weena Loft Unit Layout</h2>
+                    <div class="filter-buttons">
+                        <button class="btn btn-filter active" data-filter="all">All</button>
+                        <button class="btn btn-filter" data-filter="F Side">F Side</button>
+                        <button class="btn btn-filter" data-filter="M Side">M Side</button>
+                        <button class="btn btn-filter" data-filter="Shop">Shop</button>
+                        <button class="btn btn-filter" data-filter="Small Room">Small Rooms</button>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 15px;">
+                    <button id="btn-toggle-evict" class="btn" style="padding: 6px 14px; font-size: 0.8rem; background: var(--danger); color: white;"><i class="fa-solid fa-user-minus"></i> Evict Tenants</button>
+                    <button id="btn-confirm-evict" class="btn" style="padding: 6px 14px; font-size: 0.8rem; background: var(--danger); color: white; display: none;"><i class="fa-solid fa-check"></i> Confirm Evict Selected</button>
+                    <button id="btn-cancel-evict" class="btn btn-secondary" style="padding: 6px 14px; font-size: 0.8rem; display: none;"><i class="fa-solid fa-xmark"></i> Cancel</button>
+                </div>
+                <div class="units-grid" id="units-container">
+                    <!-- Dynamic Units -->
+                </div>
+            </section>
+
+            <!-- TAB 3: TENANTS -->
+            <section id="tab-tenants" class="tab-pane">
+                <div class="tab-header-actions" style="display: flex; justify-content: space-between; align-items: center;">
+                    <h2>Active Tenants Directory</h2>
+                    <div style="display: flex; gap: 10px;">
+                        <button class="btn btn-secondary" onclick="startBulkWhatsApp('rent')"><i class="fa-brands fa-whatsapp"></i> Send All (1st)</button>
+                        <button class="btn btn-secondary" style="background-color: var(--warning); color: #fff;" onclick="startBulkWhatsApp('7th')"><i class="fa-brands fa-whatsapp"></i> Send All (7th)</button>
+                    </div>
+                </div>
+                <div class="panel-content table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Unit</th>
+                                <th>Rent Rate</th>
+                                <th>Arrears</th>
+                                <th>Phone</th>
+                                <th>WhatsApp</th>
+                                <th>Move In Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tenants-tbody">
+                            <!-- Dynamic -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- TAB 4: REPAIRS -->
+            <section id="tab-repairs" class="tab-pane">
+                <div class="tab-header-actions">
+                    <h2>Maintenance & Repairs Log</h2>
+                    <button class="btn btn-primary" id="btn-open-repair-modal"><i class="fa-solid fa-plus"></i> Log Repair</button>
+                </div>
+                <div class="repairs-kanban">
+                    <div class="kanban-column" id="col-reported">
+                        <h3><i class="fa-solid fa-circle-info text-warning"></i> Reported</h3>
+                        <div class="kanban-cards" id="repairs-reported"></div>
+                    </div>
+                    <div class="kanban-column" id="col-progress">
+                        <h3><i class="fa-solid fa-spinner fa-spin text-info"></i> In Progress</h3>
+                        <div class="kanban-cards" id="repairs-progress"></div>
+                    </div>
+                    <div class="kanban-column" id="col-completed">
+                        <h3><i class="fa-solid fa-circle-check text-success"></i> Completed</h3>
+                        <div class="kanban-cards" id="repairs-completed"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 5: REMINDERS -->
+            <section id="tab-reminders" class="tab-pane">
+                <div class="tab-header-actions">
+                    <h2>Communications Audit Log</h2>
+                </div>
+                <div class="panel-content table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Type</th>
+                                <th>Recipient</th>
+                                <th>Contact</th>
+                                <th>Message</th>
+                                <th>Scheduled Date</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reminders-tbody">
+                            <!-- Dynamic -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- TAB 6: PROFILE SETTINGS -->
+            <section id="tab-profile" class="tab-pane">
+                <div class="tab-header-actions">
+                    <h2>Owner Profile Settings</h2>
+                </div>
+                <div class="dashboard-body" style="grid-template-columns: 1fr 2fr; gap: 30px;">
+                    <!-- Left: Profile Picture -->
+                    <div class="dashboard-panel text-center align-center">
+                        <div class="panel-header">
+                            <h2><i class="fa-solid fa-camera"></i> Profile Picture</h2>
+                        </div>
+                        <div class="panel-content" style="display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
+                            <div class="profile-pic-container" style="position: relative; width: 150px; height: 150px; border-radius: 50%; overflow: hidden; background: rgba(255,255,255,0.03); border: 2px dashed var(--border-glass); display: flex; align-items: center; justify-content: center;">
+                                <img id="profile-pic-preview" src="" alt="Avatar" style="width: 100%; height: 100%; object-fit: cover; display: none;">
+                                <div id="profile-pic-placeholder" class="profile-pic-placeholder"><i class="fa-solid fa-user" style="font-size: 3.5rem; color: var(--text-muted);"></i></div>
+                            </div>
+                            <div class="input-group" style="margin-top: 20px; width: 100%;">
+                                <label for="profile-pic-input" class="btn btn-secondary btn-block"><i class="fa-solid fa-upload"></i> Upload Image</label>
+                                <input type="file" id="profile-pic-input" accept="image/*" style="display: none;">
+                            </div>
+                            <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 10px; line-height: 1.4;">Supported formats: JPG, PNG. Image is converted to data inside the database.</p>
+                        </div>
+                    </div>
+
+                    <!-- Right: Editable Details -->
+                    <div class="dashboard-panel">
+                        <div class="panel-header">
+                            <h2><i class="fa-solid fa-user-pen"></i> Personal Information</h2>
+                        </div>
+                        <div class="panel-content">
+                            <form id="profile-form">
+                                <div class="input-group">
+                                    <label for="profile-username">Username</label>
+                                    <input type="text" id="profile-username" required>
+                                </div>
+                                <div class="input-group">
+                                    <label>Role</label>
+                                    <input type="text" id="profile-role" readonly class="input-disabled">
+                                </div>
+                                <div class="input-group">
+                                    <label for="profile-name">Full Name</label>
+                                    <input type="text" id="profile-name" required>
+                                </div>
+                                <div class="input-row">
+                                    <div class="input-group">
+                                        <label for="profile-phone">Phone Number (Tax Alerts)</label>
+                                        <input type="text" id="profile-phone" required>
+                                    </div>
+                                    <div class="input-group">
+                                        <label for="profile-email">Email Address</label>
+                                        <input type="email" id="profile-email" required>
+                                    </div>
+                                </div>
+                                <div class="input-row" style="margin-top: 15px;">
+                                    <div class="input-group">
+                                        <label for="profile-password">New Password (leave blank to keep current)</label>
+                                        <div style="position: relative; width: 100%;">
+                                            <input type="password" id="profile-password" placeholder="••••••••" style="padding-right: 40px; width: 100%;">
+                                            <span onclick="togglePasswordVisibility('profile-password', this)" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); cursor: pointer; color: var(--text-muted); transition: var(--transition); z-index: 10;"><i class="fa-solid fa-eye"></i></span>
+                                        </div>
+                                    </div>
+                                    <div class="input-group">
+                                        <label for="profile-confirm-password">Confirm New Password</label>
+                                        <div style="position: relative; width: 100%;">
+                                            <input type="password" id="profile-confirm-password" placeholder="••••••••" style="padding-right: 40px; width: 100%;">
+                                            <span onclick="togglePasswordVisibility('profile-confirm-password', this)" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); cursor: pointer; color: var(--text-muted); transition: var(--transition); z-index: 10;"><i class="fa-solid fa-eye"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary" style="margin-top: 20px;"><i class="fa-solid fa-floppy-disk"></i> Save Profile Details</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- OWNER WELCOME MODAL POP-UP -->
+    <div id="welcome-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-card modal-welcome">
+            <div class="welcome-badge" id="welcome-role-badge">MAIN OWNER</div>
+            <div class="welcome-avatar" id="welcome-avatar"><i class="fa-solid fa-crown"></i></div>
+            <h2 id="welcome-title">Welcome, Florence Osanya</h2>
+            <p id="welcome-message">As the main owner of Weena Loft, you have full access control to track tenants, view collections, handle tax offsets, and manage arrears.</p>
+            <div class="welcome-stats-row">
+                <div class="w-stat">
+                    <span class="w-label">Tax Rate</span>
+                    <span class="w-value">7.5% / month</span>
+                </div>
+                <div class="w-stat">
+                    <span class="w-label">Tax Deadline</span>
+                    <span class="w-value">10th Monthly</span>
+                </div>
+                <div class="w-stat">
+                    <span class="w-label">Late Fees</span>
+                    <span class="w-value">5% after 10th</span>
+                </div>
+            </div>
+            <button class="btn btn-primary" id="btn-welcome-close">Enter Workspace <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+    </div>
+
+    <!-- LOG PAYMENT MODAL -->
+    <div id="payment-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h2>Record Bank Payment</h2>
+                <button class="modal-close" onclick="closeModal('payment-modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="payment-form">
+                    <input type="hidden" id="pay-tenant-id">
+                    <input type="hidden" id="pay-unit-id">
+                    <div class="input-group">
+                        <label>Unit</label>
+                        <input type="text" id="pay-unit-display" readonly class="input-disabled">
+                    </div>
+                    <div class="input-group">
+                        <label>Tenant</label>
+                        <input type="text" id="pay-tenant-name" readonly class="input-disabled">
+                    </div>
+                    <div class="input-group">
+                        <label>Base Rent Rate</label>
+                        <input type="text" id="pay-rent-rate" readonly class="input-disabled">
+                    </div>
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label for="pay-amount">Amount Paid (KES)</label>
+                            <input type="number" id="pay-amount" required min="1">
+                        </div>
+                        <div class="input-group">
+                            <label for="pay-month">Payment Month</label>
+                            <input type="month" id="pay-month" required>
+                        </div>
+                    </div>
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label for="pay-date">Payment Date</label>
+                            <input type="date" id="pay-date" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="pay-reference">Payment Note / Sender Info</label>
+                            <input type="text" id="pay-reference" placeholder="e.g. John Doe 0712345678" required>
+                        </div>
+                    </div>
+                    <p class="late-fee-alert" id="pay-late-fee-warning" style="display: none;">
+                        <i class="fa-solid fa-triangle-exclamation"></i> Warning: Paying after the 10th. A 5% overdue fee (KES <span id="pay-late-fee-amt">0</span>) will apply.
+                    </p>
+                    <button type="submit" class="btn btn-primary btn-block">Confirm Bank Deposit <i class="fa-solid fa-circle-check"></i></button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- EDIT PAYMENT MODAL -->
+    <div id="edit-payment-modal" class="modal-overlay" style="display: none; z-index: 9998;">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h2>Edit Bank Payment</h2>
+                <button class="modal-close" onclick="closeModal('edit-payment-modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="edit-payment-form">
+                    <input type="hidden" id="edit-pay-id">
+                    <input type="hidden" id="edit-pay-tenant-id">
+                    <input type="hidden" id="edit-pay-unit-id">
+                    <div class="input-group">
+                        <label>Unit</label>
+                        <input type="text" id="edit-pay-unit-display" readonly class="input-disabled">
+                    </div>
+                    <div class="input-group">
+                        <label>Tenant</label>
+                        <input type="text" id="edit-pay-tenant-name" readonly class="input-disabled">
+                    </div>
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label for="edit-pay-amount">Amount Paid (KES)</label>
+                            <input type="number" id="edit-pay-amount" required min="1">
+                        </div>
+                        <div class="input-group">
+                            <label for="edit-pay-month">Payment Month</label>
+                            <input type="month" id="edit-pay-month" required>
+                        </div>
+                    </div>
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label for="edit-pay-date">Payment Date</label>
+                            <input type="date" id="edit-pay-date" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="edit-pay-reference">Payment Note / Sender Info</label>
+                            <input type="text" id="edit-pay-reference" required>
+                        </div>
+                    </div>
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label for="edit-pay-late-fee">Late Fee (KES)</label>
+                            <input type="number" id="edit-pay-late-fee" required min="0" step="0.01">
+                        </div>
+                        <div class="input-group">
+                            <label for="edit-pay-status">Status</label>
+                            <select id="edit-pay-status" required>
+                                <option value="Cleared">Cleared</option>
+                                <option value="Pending">Pending</option>
+                                <option value="Failed">Failed</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Update Bank Deposit <i class="fa-solid fa-floppy-disk"></i></button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- BULK WHATSAPP MODAL -->
+    <div id="bulk-whatsapp-modal" class="modal-overlay" style="display: none; z-index: 9999;">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h2 id="bulk-modal-title">Bulk Messaging Queue</h2>
+                <button class="modal-close" onclick="closeBulkModal()">&times;</button>
+            </div>
+            <div class="modal-body" style="text-align: center;">
+                <p id="bulk-progress-text" style="margin-bottom: 15px; font-weight: bold; font-size: 1.1rem;"></p>
+                <div class="progress-bar-container" style="width: 100%; background-color: #eee; border-radius: 8px; height: 10px; margin-bottom: 20px; overflow: hidden;">
+                    <div id="bulk-progress-fill" style="height: 100%; width: 0%; background-color: var(--primary); transition: width 0.3s ease;"></div>
+                </div>
+                <h3 id="bulk-current-tenant" style="color: var(--text-dark); margin-bottom: 5px;"></h3>
+                <p style="color: var(--text-muted); margin-bottom: 20px;">Rent: KES <span id="bulk-current-rent"></span></p>
+                
+                <a id="bulk-send-btn" href="#" target="_blank" class="btn btn-primary" style="display: inline-block; margin-bottom: 15px;" onclick="markSentAndProceed()"><i class="fa-brands fa-whatsapp"></i> Open WhatsApp Web to Send</a>
+                
+                <div style="border-top: 1px solid var(--border-color); padding-top: 15px; margin-top: 10px;">
+                    <button id="bulk-skip-btn" class="btn btn-secondary" onclick="nextBulkTenant()">Skip & Next <i class="fa-solid fa-forward-step"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADD TENANT MODAL -->
+    <div id="tenant-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h2>Install New Tenant</h2>
+                <button class="modal-close" onclick="closeModal('tenant-modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="tenant-form">
+                    <input type="hidden" id="tenant-unit-id">
+                    <div class="input-group">
+                        <label>Assigned Unit</label>
+                        <input type="text" id="tenant-unit-display" readonly class="input-disabled">
+                    </div>
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label for="tenant-first-name">First Name</label>
+                            <input type="text" id="tenant-first-name" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="tenant-last-name">Last Name</label>
+                            <input type="text" id="tenant-last-name" required>
+                        </div>
+                    </div>
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label for="tenant-phone">Phone Number (SMS)</label>
+                            <input type="text" id="tenant-phone" placeholder="e.g. 07XXXXXXXX" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="tenant-whatsapp">WhatsApp Number</label>
+                            <input type="text" id="tenant-whatsapp" placeholder="e.g. 07XXXXXXXX" required>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="tenant-move-in">Move-in Date</label>
+                        <input type="date" id="tenant-move-in" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Install Tenant <i class="fa-solid fa-user-plus"></i></button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- EDIT ARREARS MODAL -->
+    <div id="arrears-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h2><i class="fa-solid fa-money-bill-wave"></i> Edit Arrears</h2>
+                <button class="modal-close" onclick="closeModal('arrears-modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="arrears-form">
+                    <input type="hidden" id="arrears-tenant-id">
+                    <div class="input-group">
+                        <label>Tenant</label>
+                        <input type="text" id="arrears-tenant-name" readonly class="input-disabled">
+                    </div>
+                    <div class="input-group">
+                        <label for="arrears-amount">Arrears Amount (KES)</label>
+                        <input type="number" id="arrears-amount" min="0" step="100" placeholder="e.g. 28000" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Save Arrears <i class="fa-solid fa-floppy-disk"></i></button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- LOG REPAIR MODAL -->
+    <div id="repair-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h2>Log Repair / Maintenance</h2>
+                <button class="modal-close" onclick="closeModal('repair-modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="repair-form">
+                    <div class="input-group">
+                        <label for="repair-unit-id">Unit (Select None for Common Areas)</label>
+                        <select id="repair-unit-id">
+                            <option value="">Common Areas / General</option>
+                            <!-- Dynamic options -->
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="repair-description">Description of Issue</label>
+                        <textarea id="repair-description" rows="3" placeholder="e.g. Leaking kitchen tap, broken door lock" required></textarea>
+                    </div>
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label for="repair-cost">Estimated/Actual Cost (KES)</label>
+                            <input type="number" id="repair-cost" required min="0">
+                        </div>
+                        <div class="input-group">
+                            <label for="repair-priority">Priority</label>
+                            <select id="repair-priority">
+                                <option value="Low">Low</option>
+                                <option value="Medium">Medium</option>
+                                <option value="High">High</option>
+                                <option value="Emergency">Emergency</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Record Request <i class="fa-solid fa-wrench"></i></button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="toast-notification">Notification Message</div>
+
+    <script src="/static/app.js?v=3.0.0"></script>
+</body>
+</html>

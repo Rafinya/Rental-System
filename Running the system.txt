@@ -1,0 +1,9 @@
+1. Double click `weenaloft.bat` OR run in terminal:
+
+cd /d "C:\Users\RALPH\Documents\The Real World\Rental System"
+venv\Scripts\python -m uvicorn main:app --host 0.0.0.0 --port 8000
+
+2. Access the system in your browser:
+- Locally: http://localhost:8000
+- On local network: http://<YOUR_LOCAL_IP>:8000
+

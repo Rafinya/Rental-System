@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weena Loft — System Documentation</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/static/favicon.svg">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/styles.css">
+    <style>
+        body {
+            overflow-y: auto !important;
+            padding: 40px 20px;
+        }
+        .docs-container {
+            max-width: 900px;
+            margin: 0 auto;
+            animation: slideUp 0.5s ease;
+        }
+        .docs-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .docs-section {
+            margin-bottom: 45px;
+        }
+        .docs-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+            margin-top: 15px;
+        }
+        .docs-card h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .docs-rule-item {
+            border-left: 3px solid var(--primary);
+            padding-left: 15px;
+            margin-bottom: 20px;
+        }
+        .docs-rule-item h4 {
+            color: white;
+            margin-bottom: 5px;
+        }
+        .docs-rule-item p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        .badge-owner {
+            background: #ffb703;
+            color: #0a0813;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+        .badge-owner-alt {
+            background: #9d4edd;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body class="bg-gradient">
+    <div class="docs-container">
+        <div class="docs-header">
+            <span class="logo-icon" style="font-size: 2.5rem; margin-bottom: 15px; display: inline-flex; width: 60px; height: 60px; align-items: center; justify-content: center; background: linear-gradient(135deg, #7b2cbf 0%, var(--primary) 100%); border-radius: 50%; color: white;"><i class="fa-solid fa-hotel"></i></span>
+            <h1 style="font-size: 2.2rem; color: white;">Weena Loft</h1>
+            <p style="color: var(--primary); font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; font-size: 0.85rem; margin-top: 5px;">System & Operational Reference Manual</p>
+        </div>
+
+        <!-- Section 1: Stack -->
+        <div class="docs-section">
+            <h2 style="color: white; border-bottom: 1px solid var(--border-glass); padding-bottom: 8px;"><i class="fa-solid fa-cubes"></i> Technology Stack & Architecture</h2>
+            <div class="docs-card">
+                <p style="color: var(--text-muted); line-height: 1.6; margin-bottom: 15px;">The Weena Loft Rental Engine is built using modern, fast, and self-contained languages and frameworks designed for performance and maintainability.</p>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div>
+                        <h4 style="color: white; margin-bottom: 5px;"><i class="fa-brands fa-python" style="color: #ffb703;"></i> Python 3 Backend</h4>
+                        <p style="color: var(--text-muted); font-size: 0.85rem; line-height: 1.4;">Powered by <strong>FastAPI</strong> and run asynchronously via the <strong>Uvicorn</strong> server process on port <strong>8000</strong>. Auto-generates standard OpenAPI Swagger documentation.</p>
+                    </div>
+                    <div>
+                        <h4 style="color: white; margin-bottom: 5px;"><i class="fa-solid fa-database" style="color: #9d4edd;"></i> SQLite3 Relational Database</h4>
+                        <p style="color: var(--text-muted); font-size: 0.85rem; line-height: 1.4;">Relational file-based database (<code>rental_system.db</code>) managed on a separate visual explorer portal on port <strong>8001</strong>.</p>
+                    </div>
+                    <div>
+                        <h4 style="color: white; margin-bottom: 5px;"><i class="fa-brands fa-js" style="color: #f7df1e;"></i> Vanilla ES6 Javascript</h4>
+                        <p style="color: var(--text-muted); font-size: 0.85rem; line-height: 1.4;">Native browser API clients executing AJAX fetches, welcome screen setups, dynamic page tabs, and base64 picture encoders.</p>
+                    </div>
+                    <div>
+                        <h4 style="color: white; margin-bottom: 5px;"><i class="fa-brands fa-css3" style="color: #264de4;"></i> Glassmorphic CSS Styling</h4>
+                        <p style="color: var(--text-muted); font-size: 0.85rem; line-height: 1.4;">Custom CSS utilizing blurred backdrops, glowing shadows, dark mode layouts, and custom media wrappers for mobile compatibility.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 2: Business Rules -->
+        <div class="docs-section">
+            <h2 style="color: white; border-bottom: 1px solid var(--border-glass); padding-bottom: 8px;"><i class="fa-solid fa-scale-balanced"></i> Operational & Business Rules</h2>
+            <div class="docs-card">
+                <div class="docs-rule-item">
+                    <h4>📅 Rent Cycle & Collection</h4>
+                    <p>Rent is scheduled for collection on the <strong>1st of every month</strong>. It is marked as due before the <strong>7th</strong>. Reminders are broadcasted to all active tenants automatically.</p>
+                </div>
+                <div class="docs-rule-item">
+                    <h4>⚠️ Overdue Penalties (5%)</h4>
+                    <p>Payments recorded on or after the <strong>11th of the month</strong> trigger an automatic 5% late fee penalty warning, calculated dynamically on the unit's base rent.</p>
+                </div>
+                <div class="docs-rule-item">
+                    <h4>🏦 Strict Banking Mandate</h4>
+                    <p>Money must be deposited directly to the bank account. Direct M-Pesa transactions to landlord phone numbers are disabled. Banking details:<br>
+                    <strong>Bank:</strong> Absa Bank Queensway | <strong>Acc:</strong> 2053 9252 54 | <strong>Paybill:</strong> 303030</p>
+                </div>
+                <div class="docs-rule-item">
+                    <h4>💼 Rental Income Tax (7.5%)</h4>
+                    <p>Landlords Florence and Ralph are subject to a 7.5% monthly rental income tax payable on the <strong>10th of every month</strong>. Automatic alert warnings are generated on the 9th and 10th.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 3: Credentials -->
+        <div class="docs-section">
+            <h2 style="color: white; border-bottom: 1px solid var(--border-glass); padding-bottom: 8px;"><i class="fa-solid fa-key"></i> System Access Credentials</h2>
+            <div class="docs-card" style="overflow-x: auto;">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Landlord</th>
+                            <th>Role / Access Level</th>
+                            <th>Seeded Username</th>
+                            <th>Seeded Password</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Florence Osanya</strong></td>
+                            <td><span class="badge-owner">Main Owner</span></td>
+                            <td><code>florence</code></td>
+                            <td><code>Ralphedd@123</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Ralph Osiko</strong></td>
+                            <td><span class="badge-owner-alt">Owner</span></td>
+                            <td><code>ralph</code></td>
+                            <td><code>Ralphedd@123</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 15px;"><i class="fa-solid fa-info-circle"></i> Both owners can update their usernames, names, phone numbers, email addresses, and upload custom circular avatar photos directly via the <strong>Profile Settings</strong> tab inside the application.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
