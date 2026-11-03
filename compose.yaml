@@ -1,0 +1,10 @@
+services:
+  weena-loft:
+    build:
+      context: .
+      dockerfile: Containerfile
+    image: weena-loft:latest
+    container_name: weena-loft
+    ports:
+      - "8080:80"
+    restart: unless-stopped
