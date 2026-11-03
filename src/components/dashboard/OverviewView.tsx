@@ -180,7 +180,6 @@ export const OverviewView: React.FC<OverviewViewProps> = ({
               <RealBuildingScene
                 selectedFloor={selected3dFloor}
                 onSelectFloor={(f) => setSelected3dFloor(f)}
-                onManageFloor={(f) => onNavigateTab('floors')}
                 className="w-full h-full border-0 !bg-[#1F241F]"
               />
             </div>
