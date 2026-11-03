@@ -30,6 +30,7 @@ import { Sidebar } from './components/layout/Sidebar';
 import { Header } from './components/layout/Header';
 import { OverviewView } from './components/dashboard/OverviewView';
 import { BuildingExplorerView } from './components/building/BuildingExplorerView';
+import { motion, AnimatePresence } from 'motion/react';
 import { FloorsView } from './components/floors/FloorsView';
 import { UnitsView } from './components/units/UnitsView';
 import { TenantsView } from './components/tenants/TenantsView';
@@ -415,6 +416,14 @@ export default function App() {
 
         {/* View Routing */}
         <main className="flex-1 p-4 md:p-6 max-w-7xl w-full mx-auto">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentTab}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.22, ease: 'easeOut' }}
+            >
           {currentTab === 'overview' && (
             <OverviewView
               units={units}
@@ -527,6 +536,8 @@ export default function App() {
               onResetData={handleResetData}
             />
           )}
+            </motion.div>
+          </AnimatePresence>
         </main>
       </div>
 
