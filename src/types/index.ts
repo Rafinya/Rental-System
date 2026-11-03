@@ -15,7 +15,7 @@ export interface User {
   updatedAt?: string;
 }
 
-export type UnitType = 'Studio' | '1-Bedroom' | '2-Bedroom' | '3-Bedroom' | 'Penthouse Loft' | 'Executive Suite';
+export type UnitType = 'Studio' | '1-Bedroom' | '2-Bedroom' | '3-Bedroom' | 'Executive Suite';
 
 export type OccupancyStatus = 'vacant' | 'occupied' | 'maintenance';
 

@@ -151,7 +151,7 @@ export const UnitsView: React.FC<UnitsViewProps> = ({
               <option value="1">Floor 01 (Ground Floor)</option>
               <option value="2">Floor 02 (Second Level)</option>
               <option value="3">Floor 03 (Third Level)</option>
-              <option value="4">Floor 04 (Penthouse / Top)</option>
+              <option value="4">Floor 04 (Top Floor)</option>
             </select>
           </div>
 
@@ -181,7 +181,6 @@ export const UnitsView: React.FC<UnitsViewProps> = ({
               <option value="1-Bedroom">1-Bedroom</option>
               <option value="2-Bedroom">2-Bedroom</option>
               <option value="3-Bedroom">3-Bedroom</option>
-              <option value="Penthouse">Penthouse</option>
             </select>
           </div>
         </div>

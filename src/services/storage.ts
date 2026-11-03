@@ -7,6 +7,7 @@
 import {
   Floor,
   Unit,
+  UnitType,
   Tenant,
   Repair,
   AuditLog,
@@ -52,7 +53,7 @@ const INITIAL_FLOORS: Floor[] = [
   {
     floorNumber: 4,
     name: 'Floor 4',
-    description: 'Fourth floor penthouse & loft tier.',
+    description: 'Fourth floor residential tier.',
     targetUnitCount: 0,
   },
 ];
@@ -77,7 +78,6 @@ const INITIAL_SETTINGS: PropertySettings = {
     'One-bedroom',
     'Two-bedroom',
     'Three-bedroom',
-    'Penthouse Loft',
   ],
   repairCategories: [
     'Plumbing',
@@ -209,7 +209,14 @@ class StorageService {
 
   // ===================== UNITS =====================
   public getUnits(): Unit[] {
-    return this.getItem<Unit[]>(STORAGE_KEYS.UNITS, INITIAL_UNITS);
+    const units = this.getItem<Unit[]>(STORAGE_KEYS.UNITS, INITIAL_UNITS);
+    // Migrate legacy data: the building has no penthouse, so blend old
+    // "Penthouse Loft" records into the regular top-floor residential units.
+    return units.map((unit) =>
+      (unit.type as string) === 'Penthouse Loft'
+        ? { ...unit, type: '3-Bedroom' as UnitType }
+        : unit
+    );
   }
 
   public getUnitById(id: string): Unit | undefined {
@@ -667,7 +674,12 @@ class StorageService {
 
   // ===================== SETTINGS =====================
   public getSettings(): PropertySettings {
-    return this.getItem<PropertySettings>(STORAGE_KEYS.SETTINGS, INITIAL_SETTINGS);
+    const settings = this.getItem<PropertySettings>(STORAGE_KEYS.SETTINGS, INITIAL_SETTINGS);
+    // Drop the legacy penthouse classification from already-persisted settings.
+    return {
+      ...settings,
+      unitTypes: settings.unitTypes.filter((type) => type !== 'Penthouse Loft'),
+    };
   }
 
   public updateSettings(updates: Partial<PropertySettings>): PropertySettings {

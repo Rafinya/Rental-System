@@ -155,7 +155,7 @@ export const TenantsView: React.FC<TenantsViewProps> = ({
               <option value="1">Floor 01 (Ground)</option>
               <option value="2">Floor 02</option>
               <option value="3">Floor 03</option>
-              <option value="4">Floor 04 (Penthouse)</option>
+              <option value="4">Floor 04 (Top Floor)</option>
             </select>
           </div>
         </div>

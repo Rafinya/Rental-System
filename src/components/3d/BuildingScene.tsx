@@ -346,8 +346,8 @@ export const BuildingScene: React.FC<BuildingSceneProps> = ({
       floorGroup.userData = { floorNumber: i, defaultY: (i - 1) * floorHeight + 0.35 };
       floorGroup.position.y = (i - 1) * floorHeight + 0.35;
 
-      const fWidth = i === 4 ? baseWidth * 0.82 : i % 2 === 0 ? baseWidth * 1.05 : baseWidth;
-      const fDepth = i === 4 ? baseDepth * 0.82 : baseDepth;
+      const fWidth = i % 2 === 0 ? baseWidth * 1.05 : baseWidth;
+      const fDepth = baseDepth;
 
       // 1. Structural Floor Slab with beveled terrace cantilever
       const slabGeo = new THREE.BoxGeometry(fWidth, 0.28, fDepth);
@@ -448,58 +448,6 @@ export const BuildingScene: React.FC<BuildingSceneProps> = ({
       floorGroups.push(floorGroup);
     }
 
-    // Penthouse Roof Lounge & Pergola on Floor 4
-    const roofTopGroup = new THREE.Group();
-    const roofY = 4 * floorHeight + 0.35;
-    roofTopGroup.position.set(0, roofY, 0);
-
-    const parapet = new THREE.Mesh(
-      new THREE.BoxGeometry(baseWidth * 0.85, 0.45, baseDepth * 0.85),
-      warmStoneMat
-    );
-    parapet.position.set(0, 0.22, 0);
-    roofTopGroup.add(parapet);
-
-    for (let b = 0; b < 6; b++) {
-      const beam = new THREE.Mesh(
-        new THREE.BoxGeometry(4.5, 0.1, 0.12),
-        caramelGoldMat
-      );
-      beam.position.set(0.5, 1.8, -1.8 + b * 0.7);
-      roofTopGroup.add(beam);
-    }
-
-    const pillarPositions = [
-      [-1.6, 0.9, -1.8],
-      [2.6, 0.9, -1.8],
-      [-1.6, 0.9, 1.7],
-      [2.6, 0.9, 1.7],
-    ];
-    pillarPositions.forEach(([px, py, pz]) => {
-      const pillar = new THREE.Mesh(
-        new THREE.CylinderGeometry(0.06, 0.06, 1.8, 12),
-        caramelGoldMat
-      );
-      pillar.position.set(px, py, pz);
-      roofTopGroup.add(pillar);
-    });
-
-    const beaconStem = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.04, 0.08, 1.6, 16),
-      caramelGoldMat
-    );
-    beaconStem.position.set(0, 1.4, 0);
-    roofTopGroup.add(beaconStem);
-
-    const beaconLight = new THREE.Mesh(
-      new THREE.SphereGeometry(0.18, 16, 16),
-      orbGlowMat
-    );
-    beaconLight.position.set(0, 2.2, 0);
-    roofTopGroup.add(beaconLight);
-
-    buildingRoot.add(roofTopGroup);
-
     sceneContextRef.current = {
       renderer,
       scene,
@@ -588,9 +536,6 @@ export const BuildingScene: React.FC<BuildingSceneProps> = ({
 
         _currentLookAt.lerp(_targetLookAt, 0.05);
         controls.target.copy(_currentLookAt);
-
-        const pulse = 1.0 + Math.sin(currentTime * 0.003) * 0.2;
-        beaconLight.scale.setScalar(pulse);
       }
 
       renderer.render(scene, camera);

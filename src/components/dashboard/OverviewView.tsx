@@ -224,7 +224,7 @@ export const OverviewView: React.FC<OverviewViewProps> = ({
           </div>
 
           <div className="mt-3 pt-3 border-t border-[#1F241F] flex items-center justify-between text-[11px] text-[#8E958C]">
-            <span>Ground to Penthouse</span>
+            <span>Ground to Top Floor</span>
             <span className="text-[#D8B475] font-mono font-medium">Ready</span>
           </div>
         </div>

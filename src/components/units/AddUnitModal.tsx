@@ -136,7 +136,7 @@ export const AddUnitModal: React.FC<AddUnitModalProps> = ({
               </label>
               <input
                 type="text"
-                placeholder="e.g. 101, 2A, Penthouse-1"
+                placeholder="e.g. 101, 2A, 4B"
                 value={unitNumber}
                 onChange={(e) => setUnitNumber(e.target.value)}
                 className="w-full px-3 py-2 bg-[#1C201C] border border-[#2A312A] rounded-xl text-[#F6F3EC] font-semibold focus:outline-none focus:border-[#D8B475]"
@@ -156,7 +156,7 @@ export const AddUnitModal: React.FC<AddUnitModalProps> = ({
                 <option value={1}>Floor 01 (Ground Floor)</option>
                 <option value={2}>Floor 02 (Second Level)</option>
                 <option value={3}>Floor 03 (Third Level)</option>
-                <option value={4}>Floor 04 (Penthouse / Top)</option>
+                <option value={4}>Floor 04 (Top Floor)</option>
               </select>
             </div>
           </div>
