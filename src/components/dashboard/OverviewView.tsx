@@ -20,7 +20,7 @@ import {
   ArrowRight,
   Sparkles
 } from 'lucide-react';
-import { BuildingScene } from '../3d/BuildingScene';
+import { RealBuildingScene } from './RealBuildingScene';
 import { Unit, Tenant, Repair, Floor, AuditLog } from '../../types';
 
 interface OverviewViewProps {
@@ -175,13 +175,13 @@ export const OverviewView: React.FC<OverviewViewProps> = ({
               </span>
             </div>
 
-            {/* 3D Scene Viewport */}
+            {/* Real building showcase */}
             <div className="w-full h-full min-h-[340px] sm:min-h-[400px] rounded-2xl overflow-hidden relative">
-              <BuildingScene
+              <RealBuildingScene
                 selectedFloor={selected3dFloor}
                 onSelectFloor={(f) => setSelected3dFloor(f)}
+                onManageFloor={(f) => onNavigateTab('floors')}
                 className="w-full h-full border-0 !bg-[#1F241F]"
-                isCompact={true}
               />
             </div>
 
