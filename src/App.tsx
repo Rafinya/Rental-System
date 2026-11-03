@@ -407,6 +407,7 @@ export default function App() {
           repairs={repairs}
           currentUser={currentUser}
           onOpenProfile={() => setIsUserProfileOpen(true)}
+          onLogout={handleLogout}
           impersonatingOwnerName={ownerImpersonator?.name}
           onReturnToOwner={handleReturnToOwner}
         />
@@ -567,6 +568,7 @@ export default function App() {
         onUpdateProfile={handleUpdateUserProfile}
         onChangePassword={handleChangePassword}
         onSwitchUser={handleSwitchUser}
+        onLogout={handleLogout}
       />
 
       <AddUnitModal

@@ -17,7 +17,8 @@ import {
   Eye, 
   EyeOff, 
   ShieldCheck, 
-  UserCheck 
+  UserCheck,
+  LogOut
 } from 'lucide-react';
 import { User as UserType, UserRole } from '../../types';
 
@@ -36,6 +37,7 @@ interface UserProfileModalProps {
     newPass: string
   ) => { success: boolean; message: string };
   onSwitchUser: (user: UserType) => void;
+  onLogout?: () => void;
 }
 
 export const UserProfileModal: React.FC<UserProfileModalProps> = ({
@@ -46,6 +48,7 @@ export const UserProfileModal: React.FC<UserProfileModalProps> = ({
   onUpdateProfile,
   onChangePassword,
   onSwitchUser,
+  onLogout,
 }) => {
   const [activeTab, setActiveTab] = useState<'details' | 'security' | 'accounts'>('details');
 
@@ -155,12 +158,24 @@ export const UserProfileModal: React.FC<UserProfileModalProps> = ({
             </div>
           </div>
 
-          <button
-            onClick={onClose}
-            className="p-1.5 rounded-lg text-[#8E958C] hover:text-[#F6F3EC] hover:bg-[#1C201C]"
-          >
-            <X className="w-5 h-5" />
-          </button>
+          <div className="flex items-center gap-1">
+            {onLogout && (
+              <button
+                onClick={onLogout}
+                title="Sign Out"
+                className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[11px] font-semibold text-[#8E958C] hover:text-[#F87171] hover:bg-[#1C201C] transition-colors"
+              >
+                <LogOut className="w-3.5 h-3.5" />
+                <span className="hidden sm:inline">Sign Out</span>
+              </button>
+            )}
+            <button
+              onClick={onClose}
+              className="p-1.5 rounded-lg text-[#8E958C] hover:text-[#F6F3EC] hover:bg-[#1C201C]"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
         </div>
 
         {/* Navigation Tabs */}

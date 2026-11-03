@@ -15,7 +15,8 @@ import {
   ShieldAlert, 
   CheckCircle2, 
   Calendar,
-  ChevronRight
+  ChevronRight,
+  LogOut
 } from 'lucide-react';
 import { AppNotification, Unit, Tenant, Repair } from '../../types';
 
@@ -33,6 +34,7 @@ interface HeaderProps {
   repairs: Repair[];
   currentUser?: { name: string; email: string; role: any; avatar?: string };
   onOpenProfile?: () => void;
+  onLogout?: () => void;
   impersonatingOwnerName?: string;
   onReturnToOwner?: () => void;
 }
@@ -51,6 +53,7 @@ export const Header: React.FC<HeaderProps> = ({
   repairs,
   currentUser,
   onOpenProfile,
+  onLogout,
   impersonatingOwnerName,
   onReturnToOwner,
 }) => {
@@ -374,6 +377,18 @@ export const Header: React.FC<HeaderProps> = ({
           >
             {currentUser?.avatar || currentUser?.name.slice(0, 2).toUpperCase() || 'WL'}
           </button>
+
+          {/* Mobile-only sign out */}
+          {onLogout && (
+            <button
+              onClick={onLogout}
+              title="Sign Out"
+              aria-label="Sign Out"
+              className="md:hidden p-2 rounded-xl bg-[#141714] border border-[#242A24] text-[#8E958C] hover:text-[#F87171] hover:border-[#4A2020] transition-all"
+            >
+              <LogOut className="w-4 h-4" />
+            </button>
+          )}
         </div>
       </div>
     </header>
