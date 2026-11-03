@@ -29,6 +29,7 @@ interface OverviewViewProps {
   repairs: Repair[];
   floors: Floor[];
   auditLogs: AuditLog[];
+  showActivityLog: boolean;
   onNavigateTab: (tab: string, targetId?: string) => void;
   onOpenAddUnit: (floorNum?: number) => void;
   onOpenAddTenant: () => void;
@@ -42,6 +43,7 @@ export const OverviewView: React.FC<OverviewViewProps> = ({
   repairs,
   floors,
   auditLogs,
+  showActivityLog,
   onNavigateTab,
   onOpenAddUnit,
   onOpenAddTenant,
@@ -400,9 +402,9 @@ export const OverviewView: React.FC<OverviewViewProps> = ({
       )}
 
       {/* 5. Four Floor Overview & Activity Trail */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <div className={`grid grid-cols-1 ${showActivityLog ? 'lg:grid-cols-12' : ''} gap-6`}>
         {/* Four Floor Structure breakdown */}
-        <div className="lg:col-span-7 space-y-3">
+        <div className={`${showActivityLog ? 'lg:col-span-7' : ''} space-y-3`}>
           <div className="flex items-center justify-between">
             <div>
               <h3 className="font-serif text-lg font-bold text-[#F6F3EC]">
@@ -468,8 +470,9 @@ export const OverviewView: React.FC<OverviewViewProps> = ({
           </div>
         </div>
 
-        {/* Operational Activity Log */}
-        <div className="lg:col-span-5 p-5 rounded-2xl bg-[#151815] border border-[#242A24] shadow-sm flex flex-col justify-between">
+        {/* Operational Activity Log — owner / system admin only */}
+        {showActivityLog && (
+          <div className="lg:col-span-5 p-5 rounded-2xl bg-[#151815] border border-[#242A24] shadow-sm flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between border-b border-[#242A24] pb-3 mb-3">
               <div className="flex items-center gap-2">
@@ -514,11 +517,12 @@ export const OverviewView: React.FC<OverviewViewProps> = ({
             </div>
           </div>
 
-          <div className="pt-3 border-t border-[#242A24] text-[11px] text-[#8E958C] flex items-center justify-between">
-            <span>Weena Loft Accommodations</span>
-            <span className="font-mono text-[#D8B475]">4 Floors</span>
+            <div className="pt-3 border-t border-[#242A24] text-[11px] text-[#8E958C] flex items-center justify-between">
+              <span>Weena Loft Accommodations</span>
+              <span className="font-mono text-[#D8B475]">4 Floors</span>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

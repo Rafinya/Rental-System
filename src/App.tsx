@@ -419,7 +419,8 @@ export default function App() {
               tenants={tenants}
               repairs={repairs}
               floors={floors}
-              auditLogs={auditLogs}
+              auditLogs={isOwner ? auditLogs : []}
+              showActivityLog={Boolean(isOwner)}
               onNavigateTab={handleNavigateTab}
               onOpenAddUnit={(flNum) => handleOpenAddUnit(flNum)}
               onOpenAddTenant={() => handleOpenAddTenant()}
