@@ -29,6 +29,7 @@ import {
 import { Sidebar } from './components/layout/Sidebar';
 import { Header } from './components/layout/Header';
 import { OverviewView } from './components/dashboard/OverviewView';
+import { BuildingExplorerView } from './components/building/BuildingExplorerView';
 import { FloorsView } from './components/floors/FloorsView';
 import { UnitsView } from './components/units/UnitsView';
 import { TenantsView } from './components/tenants/TenantsView';
@@ -429,6 +430,15 @@ export default function App() {
               onQuickUpdateRepair={(repId, status, note) => {
                 handleUpdateRepairStatus(repId, status, note);
               }}
+            />
+          )}
+
+          {currentTab === 'explorer' && (
+            <BuildingExplorerView
+              units={units}
+              tenants={tenants}
+              floors={floors}
+              onNavigateTab={handleNavigateTab}
             />
           )}
 

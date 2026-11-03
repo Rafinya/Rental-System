@@ -20,7 +20,7 @@ import {
   ArrowRight,
   Sparkles
 } from 'lucide-react';
-import { RealBuildingScene } from './RealBuildingScene';
+import { WeenaBuilding3D } from '../3d/WeenaBuilding3D';
 import { Unit, Tenant, Repair, Floor, AuditLog } from '../../types';
 
 interface OverviewViewProps {
@@ -51,6 +51,8 @@ export const OverviewView: React.FC<OverviewViewProps> = ({
   onQuickUpdateRepair,
 }) => {
   const [selected3dFloor, setSelected3dFloor] = useState<number | null>(null);
+  const [selected3dUnitId, setSelected3dUnitId] = useState<string | null>(null);
+  const [buildingStatusFilter, setBuildingStatusFilter] = useState<'all' | 'occupied' | 'vacant' | 'maintenance'>('all');
 
   const totalUnits = units.length;
   const occupiedUnits = units.filter((u) => u.status === 'occupied').length;
@@ -175,14 +177,82 @@ export const OverviewView: React.FC<OverviewViewProps> = ({
               </span>
             </div>
 
-            {/* Real building showcase */}
+            {/* 3D building showcase with graceful fallback */}
             <div className="w-full h-full min-h-[340px] sm:min-h-[400px] rounded-2xl overflow-hidden relative">
-              <RealBuildingScene
-                selectedFloor={selected3dFloor}
-                onSelectFloor={(f) => setSelected3dFloor(f)}
-                className="w-full h-full border-0 !bg-[#1F241F]"
-              />
+              {typeof window !== 'undefined' && !!window.WebGLRenderingContext ? (
+                <WeenaBuilding3D
+                  units={units}
+                  selectedFloor={selected3dFloor}
+                  onSelectFloor={(f) => {
+                    setSelected3dFloor(f);
+                    setSelected3dUnitId(null);
+                  }}
+                  selectedUnitId={selected3dUnitId}
+                  onSelectUnit={setSelected3dUnitId}
+                  statusFilter={buildingStatusFilter}
+                  className="w-full h-full border-0 !bg-[#1F241F]"
+                />
+              ) : (
+                <img
+                  src="/assets/building/building-exterior.jpg"
+                  alt="Weena Loft Accommodations"
+                  className="w-full h-full object-cover"
+                />
+              )}
             </div>
+
+            {/* 3D status filters */}
+            <div className="flex flex-wrap items-center gap-2 pt-2">
+              {(['all', 'occupied', 'vacant', 'maintenance'] as const).map((f) => (
+                <button
+                  key={f}
+                  onClick={() => setBuildingStatusFilter(f)}
+                  className={`px-3 py-1.5 rounded-xl border text-[10px] font-mono uppercase tracking-wider font-semibold transition-all ${
+                    buildingStatusFilter === f
+                      ? 'bg-[#D4A962] text-[#141714] border-[#D4A962]'
+                      : 'bg-[#141714]/70 text-[#8E958C] border-[#2A312A] hover:text-[#F6F3EC] hover:border-[#D8B475]/50'
+                  }`}
+                >
+                  {f}
+                </button>
+              ))}
+            </div>
+
+            {selected3dUnitId && (() => {
+              const u = units.find((x) => x.id === selected3dUnitId);
+              if (!u) return null;
+              const tenant = tenants.find((t) => t.id === u.tenantId);
+              return (
+                <div className="mt-3 p-4 rounded-2xl bg-[#151815] border border-[#D8B475]/40 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                  <div className="space-y-1">
+                    <span className="text-[10px] font-mono tracking-widest text-[#D8B475] uppercase font-semibold block">
+                      SELECTED UNIT
+                    </span>
+                    <h4 className="text-lg font-serif font-bold text-[#F6F3EC]">
+                      Unit #{u.unitNumber} · Floor 0{u.floor}
+                    </h4>
+                    <p className="text-xs text-[#8E958C]">
+                      {u.type} · {u.status}
+                      {tenant ? ` · ${tenant.fullName}` : ' · Vacant'}
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => onNavigateTab('units', u.id)}
+                      className="px-3.5 py-2 rounded-xl bg-[#D4A962] hover:bg-[#E2BA72] text-[#141714] text-xs font-semibold transition-all"
+                    >
+                      Manage unit
+                    </button>
+                    <button
+                      onClick={() => setSelected3dUnitId(null)}
+                      className="px-3.5 py-2 rounded-xl bg-[#1C201C] text-[#8E958C] hover:text-[#F6F3EC] text-xs font-semibold transition-all"
+                    >
+                      Clear
+                    </button>
+                  </div>
+                </div>
+              );
+            })()}
 
             {/* Bottom Badges from Screenshot: "● ARCHITECTURAL OVERVIEW" and "04 FLOORS" */}
             <div className="flex items-center justify-between pt-2 z-20 text-[10px] font-mono text-[#8E958C] uppercase tracking-wider">
