@@ -6,3 +6,7 @@ coverage/
 *.log
 .env*
 !.env.example
+
+# Local-only assets and briefs
+3d apartment
+Gemini_Generated_Image_fpvvh1fpvvh1fpvv.jpg
