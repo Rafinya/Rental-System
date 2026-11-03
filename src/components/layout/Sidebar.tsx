@@ -99,17 +99,17 @@ export const Sidebar: React.FC<SidebarProps> = ({
           <div className="flex items-center gap-3 overflow-hidden">
             {/* Weena Loft Monogram Logo */}
             <div className="relative w-10 h-10 rounded-xl overflow-hidden shrink-0 border border-[#D4A962]/40 bg-[#161816] shadow-md flex items-center justify-center">
+              <span className="text-[#D8B475] font-serif font-bold text-lg pointer-events-none absolute">
+                W
+              </span>
               <img
-                src="/assets/aistudio/Gemini_Generated_Image_fpvvh1fpvvh1fpvv_15e70fd6.jpg"
-                alt="Weena Loft Logo"
-                className="w-full h-full object-cover"
+                src="/assets/aistudio/weena-loft-wl.png"
+                alt="Weena Loft monogram"
+                className="relative z-10 w-full h-full object-cover"
                 onError={(e) => {
                   e.currentTarget.style.display = 'none';
                 }}
               />
-              <span className="text-[#D8B475] font-serif font-bold text-lg pointer-events-none absolute">
-                W
-              </span>
             </div>
 
             {!collapsed && (

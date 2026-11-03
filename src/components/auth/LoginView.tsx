@@ -49,18 +49,18 @@ export const LoginView: React.FC<LoginViewProps> = ({ onLogin }) => {
       <div className="w-full max-w-md relative z-10 space-y-6">
         {/* Brand Monogram Showcase */}
         <div className="text-center space-y-3">
-          <div className="mx-auto w-24 h-24 rounded-2xl overflow-hidden border border-[#D4A962]/40 bg-[#161816] shadow-xl relative flex items-center justify-center p-1">
+          <div className="mx-auto w-44 h-44 rounded-3xl overflow-hidden border border-[#D4A962]/40 bg-[#161816] shadow-xl relative flex items-center justify-center p-1">
+            <span className="font-serif font-bold text-4xl text-[#D8B475] absolute pointer-events-none">
+              W
+            </span>
             <img
-              src="/assets/aistudio/Gemini_Generated_Image_fpvvh1fpvvh1fpvv_15e70fd6.jpg"
-              alt="Weena Loft Logo"
-              className="w-full h-full object-cover rounded-xl"
+              src="/assets/aistudio/weena-loft-logo.jpg"
+              alt="Weena Loft Accommodations logo"
+              className="relative z-10 w-full h-full object-cover rounded-[1.25rem]"
               onError={(e) => {
                 e.currentTarget.style.display = 'none';
               }}
             />
-            <span className="font-serif font-bold text-3xl text-[#D8B475] absolute pointer-events-none">
-              W
-            </span>
           </div>
 
           <div>

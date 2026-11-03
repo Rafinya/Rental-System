@@ -123,6 +123,11 @@ export const Header: React.FC<HeaderProps> = ({
       <div className="flex items-center justify-between gap-4">
         {/* Left: Breadcrumb matching screenshot "Weena Loft > Overview" */}
         <div className="flex items-center gap-2 text-xs">
+          <img
+            src="/assets/aistudio/weena-loft-wl.png"
+            alt="Weena Loft monogram"
+            className="md:hidden w-6 h-6 rounded-md object-cover border border-[#D4A962]/40"
+          />
           <span
             className="text-[#8E958C] font-medium hover:text-[#F6F3EC] cursor-pointer"
             onClick={() => onNavigateTab(isMaintenance ? 'repairs' : 'overview')}
