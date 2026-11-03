@@ -1,6 +1,6 @@
-import React, { Suspense, useEffect, useMemo, useRef, useState } from 'react';
-import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { OrbitControls, Html, ContactShadows } from '@react-three/drei';
+import React, { Suspense, useEffect, useRef, useState } from 'react';
+import { Canvas, useFrame } from '@react-three/fiber';
+import { OrbitControls, Html, ContactShadows, RoundedBox } from '@react-three/drei';
 import * as THREE from 'three';
 import gsap from 'gsap';
 import { Unit } from '../../types';
@@ -23,12 +23,12 @@ const STATUS_COLORS: Record<string, string> = {
 
 function unitSize(type: string): [number, number, number] {
   const t = type.toLowerCase();
-  if (t.includes('studio') || t.includes('bedsitter')) return [0.85, 0.45, 0.75];
-  if (t.includes('1-bedroom') || t.includes('one-bedroom')) return [1.05, 0.45, 0.85];
-  if (t.includes('2-bedroom') || t.includes('two-bedroom')) return [1.3, 0.45, 0.95];
-  if (t.includes('3-bedroom') || t.includes('three-bedroom')) return [1.55, 0.45, 1.05];
-  if (t.includes('executive')) return [1.5, 0.45, 1.0];
-  return [1.0, 0.45, 0.85];
+  if (t.includes('studio') || t.includes('bedsitter')) return [0.9, 0.4, 0.8];
+  if (t.includes('1-bedroom') || t.includes('one-bedroom')) return [1.1, 0.4, 0.9];
+  if (t.includes('2-bedroom') || t.includes('two-bedroom')) return [1.35, 0.4, 1.0];
+  if (t.includes('3-bedroom') || t.includes('three-bedroom')) return [1.6, 0.4, 1.1];
+  if (t.includes('executive')) return [1.5, 0.4, 1.0];
+  return [1.0, 0.4, 0.9];
 }
 
 interface UnitMeshProps {
@@ -42,51 +42,58 @@ interface UnitMeshProps {
 }
 
 const UnitMesh: React.FC<UnitMeshProps> = ({ unit, position, selected, dimmed, onSelect, onHover, hovered }) => {
-  const meshRef = useRef<THREE.Mesh>(null);
+  const groupRef = useRef<THREE.Group>(null);
   const size = unitSize(unit.type);
   const color = STATUS_COLORS[unit.status] ?? '#B8B0A4';
 
   useFrame(() => {
-    if (!meshRef.current) return;
-    const target = selected ? 1.1 : hovered ? 1.06 : 1.0;
-    meshRef.current.scale.lerp(new THREE.Vector3(target, target, target), 0.18);
+    if (!groupRef.current) return;
+    const target = selected ? 1.08 : hovered ? 1.05 : 1.0;
+    groupRef.current.scale.lerp(new THREE.Vector3(target, target, target), 0.18);
   });
 
   return (
-    <mesh
-      ref={meshRef}
-      position={position}
-      onClick={(e) => {
-        e.stopPropagation();
-        onSelect(unit.id);
-      }}
-      onPointerOver={(e) => {
-        e.stopPropagation();
-        onHover(unit.id);
-      }}
-      onPointerOut={() => onHover(null)}
-      castShadow
-      receiveShadow
-    >
-      <boxGeometry args={size} />
-      <meshStandardMaterial
-        color={color}
-        roughness={0.55}
-        metalness={0.12}
-        transparent
-        opacity={dimmed ? 0.25 : 1.0}
-        emissive={selected ? color : '#000000'}
-        emissiveIntensity={selected ? 0.35 : 0}
-      />
+    <group ref={groupRef} position={position}>
+      <RoundedBox
+        args={size}
+        radius={0.06}
+        smoothness={4}
+        onClick={(e) => {
+          e.stopPropagation();
+          onSelect(unit.id);
+        }}
+        onPointerOver={(e) => {
+          e.stopPropagation();
+          onHover(unit.id);
+        }}
+        onPointerOut={() => onHover(null)}
+        castShadow
+        receiveShadow
+      >
+        <meshStandardMaterial
+          color={color}
+          roughness={0.5}
+          metalness={0.15}
+          transparent
+          opacity={dimmed ? 0.25 : 1.0}
+          emissive={selected ? color : '#000000'}
+          emissiveIntensity={selected ? 0.3 : 0}
+        />
+      </RoundedBox>
+      {/* Unit number plate */}
+      <mesh position={[0, size[1] / 2 + 0.01, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+        <planeGeometry args={[size[0] * 0.7, size[2] * 0.5]} />
+        <meshBasicMaterial color="#F6F3EC" transparent opacity={0.9} />
+      </mesh>
       {(hovered || selected) && (
-        <Html position={[0, size[1] / 2 + 0.22, 0]} center distanceFactor={8} style={{ pointerEvents: 'none' }}>
+        <Html position={[0, size[1] / 2 + 0.25, 0]} center distanceFactor={8} style={{ pointerEvents: 'none' }}>
           <div className="px-2 py-1 rounded-md bg-[#141714]/90 border border-[#D8B475]/60 text-[10px] text-[#F6F3EC] font-mono whitespace-nowrap shadow-lg">
             <span className="text-[#D8B475] font-bold">#{unit.unitNumber}</span>
             <span className="ml-1.5 opacity-80">{unit.type}</span>
           </div>
         </Html>
       )}
-    </mesh>
+    </group>
   );
 };
 
@@ -116,7 +123,6 @@ const Building: React.FC<BuildingProps> = ({
   const floorRefs = useRef<(THREE.Group | null)[]>([]);
   const buildingRef = useRef<THREE.Group>(null);
 
-  // GSAP reveal on mount
   useEffect(() => {
     if (!buildingRef.current) return;
     buildingRef.current.scale.set(0.001, 0.001, 0.001);
@@ -124,7 +130,7 @@ const Building: React.FC<BuildingProps> = ({
       x: 1,
       y: 1,
       z: 1,
-      duration: 1.3,
+      duration: 1.4,
       ease: 'power3.out',
     });
     return () => {
@@ -140,17 +146,16 @@ const Building: React.FC<BuildingProps> = ({
       const baseY = (floorNum - 1) * FLOOR_HEIGHT;
       const explodeY = baseY + (exploded ? (floorNum - 1) * EXPLODE_GAP : 0);
       const isolated = selectedFloor !== null && selectedFloor !== floorNum;
-      const targetY = explodeY - (isolated ? 0.15 : 0);
+      const targetY = explodeY - (isolated ? 0.2 : 0);
       g.position.y += (targetY - g.position.y) * 0.12;
-      const targetScale = isolated ? 0.96 : 1.0;
+      const targetScale = isolated ? 0.95 : 1.0;
       g.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), 0.12);
-      // dim materials
       g.traverse((obj) => {
         const mesh = obj as THREE.Mesh;
         if (mesh.isMesh && mesh.material) {
           const mat = mesh.material as THREE.MeshStandardMaterial;
           if (mat.transparent !== undefined) {
-            const targetOpacity = isolated ? 0.28 : 1.0;
+            const targetOpacity = isolated ? 0.3 : 1.0;
             mat.opacity += (targetOpacity - mat.opacity) * 0.12;
             mat.transparent = true;
           }
@@ -159,28 +164,41 @@ const Building: React.FC<BuildingProps> = ({
     });
   });
 
+  const buildingWidth = 6.4;
+  const buildingDepth = 4.2;
+
   return (
     <group ref={buildingRef}>
+      {/* Ground podium */}
+      <mesh position={[0, -0.35, 0]} receiveShadow>
+        <boxGeometry args={[buildingWidth + 1.2, 0.35, buildingDepth + 1.2]} />
+        <meshStandardMaterial color="#D9D2C5" roughness={0.85} metalness={0.05} />
+      </mesh>
+      {/* Entrance steps */}
+      <mesh position={[0, -0.12, buildingDepth / 2 + 0.7]} receiveShadow>
+        <boxGeometry args={[2.4, 0.18, 0.8]} />
+        <meshStandardMaterial color="#CFC7BA" roughness={0.8} metalness={0.05} />
+      </mesh>
+
       {([1, 2, 3, 4] as number[]).map((floorNum) => {
         const floorUnits = units.filter((u) => u.floor === floorNum);
         const filteredUnits =
           statusFilter === 'all' ? floorUnits : floorUnits.filter((u) => u.status === statusFilter);
         const visibleSet = new Set(filteredUnits.map((u) => u.id));
 
-        // layout
         const cols = Math.max(1, Math.ceil(Math.sqrt(Math.max(floorUnits.length, 1))));
-        const spacingX = 1.15;
-        const spacingZ = 0.95;
+        const spacingX = 1.2;
+        const spacingZ = 1.0;
         const positioned = floorUnits.map((u, i) => {
           const col = i % cols;
           const row = Math.floor(i / cols);
           const x = (col - (cols - 1) / 2) * spacingX;
           const z = (row - (Math.ceil(floorUnits.length / cols) - 1) / 2) * spacingZ;
-          return { unit: u, position: [x, 0.32, z] as [number, number, number] };
+          return { unit: u, position: [x, 0.3, z] as [number, number, number] };
         });
 
-        const slabWidth = Math.max(4.6, cols * spacingX + 1.4);
-        const slabDepth = Math.max(3.2, Math.ceil(floorUnits.length / cols) * spacingZ + 1.2);
+        const slabWidth = Math.max(4.8, cols * spacingX + 1.6);
+        const slabDepth = Math.max(3.4, Math.ceil(floorUnits.length / cols) * spacingZ + 1.4);
 
         return (
           <group
@@ -195,13 +213,13 @@ const Building: React.FC<BuildingProps> = ({
           >
             {/* Floor slab */}
             <mesh position={[0, 0, 0]} receiveShadow castShadow>
-              <boxGeometry args={[slabWidth, 0.18, slabDepth]} />
-              <meshStandardMaterial color="#E8E2D8" roughness={0.7} metalness={0.05} />
+              <boxGeometry args={[slabWidth, 0.16, slabDepth]} />
+              <meshStandardMaterial color="#EAE4D8" roughness={0.6} metalness={0.08} />
             </mesh>
-            {/* Slab edge */}
-            <mesh position={[0, -0.02, 0]}>
-              <boxGeometry args={[slabWidth + 0.06, 0.22, slabDepth + 0.06]} />
-              <meshStandardMaterial color="#CFC7BA" roughness={0.8} metalness={0.05} transparent opacity={0.55} />
+            {/* Slab underside */}
+            <mesh position={[0, -0.1, 0]}>
+              <boxGeometry args={[slabWidth - 0.1, 0.05, slabDepth - 0.1]} />
+              <meshStandardMaterial color="#D6CEC0" roughness={0.8} metalness={0.05} />
             </mesh>
 
             {/* Units */}
@@ -219,8 +237,8 @@ const Building: React.FC<BuildingProps> = ({
             ))}
 
             {/* Floor label */}
-            <Html position={[0, 1.05, 0]} center distanceFactor={10} style={{ pointerEvents: 'none' }}>
-              <div className="px-2.5 py-1 rounded-lg bg-[#141714]/85 border border-[#2A312A] text-[10px] font-mono text-[#D8B475] whitespace-nowrap shadow">
+            <Html position={[0, 1.1, 0]} center distanceFactor={10} style={{ pointerEvents: 'none' }}>
+              <div className="px-2.5 py-1 rounded-lg bg-[#141714]/85 border border-[#D8B475]/60 text-[10px] font-mono text-[#D8B475] whitespace-nowrap shadow">
                 {FLOOR_LABELS[floorNum]}
               </div>
             </Html>
@@ -228,16 +246,59 @@ const Building: React.FC<BuildingProps> = ({
         );
       })}
 
-      {/* Ground podium */}
-      <mesh position={[0, -0.35, 0]} receiveShadow>
-        <boxGeometry args={[6.4, 0.3, 4.6]} />
-        <meshStandardMaterial color="#D9D2C5" roughness={0.85} metalness={0.05} />
-      </mesh>
+      {/* Building envelope (walls + windows) - only when not exploded */}
+      {!exploded && (
+        <group>
+          {/* Side walls */}
+          <mesh position={[-3.3, 3.0, 0]} castShadow receiveShadow>
+            <boxGeometry args={[0.18, 6.2, 4.4]} />
+            <meshStandardMaterial color="#C9C1B4" roughness={0.75} metalness={0.05} />
+          </mesh>
+          <mesh position={[3.3, 3.0, 0]} castShadow receiveShadow>
+            <boxGeometry args={[0.18, 6.2, 4.4]} />
+            <meshStandardMaterial color="#C9C1B4" roughness={0.75} metalness={0.05} />
+          </mesh>
+          {/* Front glass curtain wall */}
+          <mesh position={[0, 3.0, 2.2]} castShadow receiveShadow>
+            <boxGeometry args={[6.4, 6.2, 0.08]} />
+            <meshStandardMaterial color="#DCE6E4" roughness={0.1} metalness={0.3} transparent opacity={0.35} />
+          </mesh>
+          {/* Back wall */}
+          <mesh position={[0, 3.0, -2.2]} castShadow receiveShadow>
+            <boxGeometry args={[6.4, 6.2, 0.12]} />
+            <meshStandardMaterial color="#C9C1B4" roughness={0.75} metalness={0.05} />
+          </mesh>
+          {/* Window grid on front */}
+          {Array.from({ length: 4 }).map((_, col) =>
+            Array.from({ length: 4 }).map((_, row) => (
+              <mesh
+                key={`w-${col}-${row}`}
+                position={[-2.4 + col * 1.6, 0.9 + row * 1.5, 2.22]}
+              >
+                <boxGeometry args={[1.0, 0.9, 0.02]} />
+                <meshStandardMaterial color="#A8C4D4" roughness={0.05} metalness={0.4} transparent opacity={0.6} />
+              </mesh>
+            ))
+          )}
+          {/* Balconies */}
+          {Array.from({ length: 4 }).map((_, row) => (
+            <mesh key={`bal-${row}`} position={[1.8, 0.9 + row * 1.5 - 0.1, 2.6]} castShadow receiveShadow>
+              <boxGeometry args={[2.2, 0.1, 0.7]} />
+              <meshStandardMaterial color="#EAE4D8" roughness={0.6} metalness={0.08} />
+            </mesh>
+          ))}
+        </group>
+      )}
 
-      {/* Roof cap */}
-      <mesh position={[0, 4 * FLOOR_HEIGHT + 0.12, 0]}>
-        <boxGeometry args={[5.2, 0.12, 3.6]} />
+      {/* Roof */}
+      <mesh position={[0, 4 * FLOOR_HEIGHT + 0.15, 0]} castShadow receiveShadow>
+        <boxGeometry args={[6.6, 0.2, 4.6]} />
         <meshStandardMaterial color="#C69248" roughness={0.35} metalness={0.6} />
+      </mesh>
+      {/* Roof parapet */}
+      <mesh position={[0, 4 * FLOOR_HEIGHT + 0.35, 0]}>
+        <boxGeometry args={[6.6, 0.4, 4.6]} />
+        <meshStandardMaterial color="#C9C1B4" roughness={0.75} metalness={0.05} transparent opacity={0.4} />
       </mesh>
     </group>
   );
@@ -267,24 +328,23 @@ export const WeenaBuilding3D: React.FC<WeenaBuilding3DProps> = ({
   const controlsRef = useRef<any>(null);
 
   const resetCamera = () => {
-    if (controlsRef.current) {
-      controlsRef.current.reset();
-    }
+    if (controlsRef.current) controlsRef.current.reset();
   };
 
   return (
     <div className={`relative w-full h-full min-h-[360px] sm:min-h-[420px] rounded-2xl overflow-hidden bg-[#1F241F] ${className}`}>
       <Canvas
         shadows
-        camera={{ position: [7.5, 5.5, 7.5], fov: 42, near: 0.1, far: 100 }}
+        camera={{ position: [8.5, 6.0, 8.5], fov: 40, near: 0.1, far: 100 }}
         gl={{ antialias: true, alpha: true }}
         dpr={[1, 2]}
       >
         <color attach="background" args={['#1F241F']} />
-        <ambientLight intensity={0.55} />
-        <directionalLight position={[6, 10, 6]} intensity={1.0} castShadow shadow-mapSize={[1024, 1024]} />
-        <directionalLight position={[-5, 6, -4]} intensity={0.35} />
-        <pointLight position={[0, 4, 0]} intensity={0.4} color="#D8B475" />
+        <ambientLight intensity={0.5} />
+        <directionalLight position={[8, 12, 8]} intensity={1.1} castShadow shadow-mapSize={[2048, 2048]} />
+        <directionalLight position={[-6, 8, -5]} intensity={0.4} />
+        <pointLight position={[0, 4, 0]} intensity={0.5} color="#D8B475" />
+        <pointLight position={[0, 8, 0]} intensity={0.3} color="#F6F3EC" />
 
         <Suspense fallback={null}>
           <Building
@@ -298,7 +358,7 @@ export const WeenaBuilding3D: React.FC<WeenaBuilding3DProps> = ({
             hoveredUnitId={hoveredUnitId}
             onHoverUnit={setHoveredUnitId}
           />
-          <ContactShadows position={[0, -0.55, 0]} opacity={0.45} scale={12} blur={2.2} far={4} />
+          <ContactShadows position={[0, -0.55, 0]} opacity={0.5} scale={14} blur={2.4} far={5} />
         </Suspense>
 
         <OrbitControls
@@ -306,11 +366,11 @@ export const WeenaBuilding3D: React.FC<WeenaBuilding3DProps> = ({
           enablePan
           enableZoom
           enableRotate
-          minDistance={4}
-          maxDistance={18}
-          minPolarAngle={Math.PI / 6}
-          maxPolarAngle={Math.PI / 2.1}
-          target={[0, 2.0, 0]}
+          minDistance={5}
+          maxDistance={20}
+          minPolarAngle={Math.PI / 8}
+          maxPolarAngle={Math.PI / 2.05}
+          target={[0, 2.5, 0]}
         />
       </Canvas>
 
@@ -336,8 +396,8 @@ export const WeenaBuilding3D: React.FC<WeenaBuilding3DProps> = ({
           onClick={() => {
             const controls = controlsRef.current;
             if (!controls) return;
-            const floorY = selectedFloor ? (selectedFloor - 1) * 1.5 + 0.5 : 2.0;
-            controls.object.position.set(0, selectedFloor ? 9 : 12, 0.01);
+            const floorY = selectedFloor ? (selectedFloor - 1) * 1.5 + 0.5 : 2.5;
+            controls.object.position.set(0, selectedFloor ? 10 : 13, 0.01);
             controls.target.set(0, floorY, 0);
             controls.update();
           }}
