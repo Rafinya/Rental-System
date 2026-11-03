@@ -6,9 +6,7 @@
 import React from 'react';
 import { 
   LayoutDashboard, 
-  Building,
-  Building2, 
-  DoorOpen, 
+  Building,  DoorOpen, 
   Users, 
   Wrench, 
   FileText, 
@@ -67,7 +65,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
   const allNavItems: NavItem[] = [
     { id: 'overview', label: 'Overview', icon: LayoutDashboard, roles: ['owner', 'manager'] },
-    { id: 'explorer', label: 'Building Explorer', icon: Building2, roles: ['owner', 'manager'] },
     { id: 'floors', label: 'Building & Floors', icon: Building, roles: ['owner', 'manager'] },
     { id: 'units', label: 'Units', icon: DoorOpen, roles: ['owner', 'manager'] },
     { id: 'tenants', label: 'Tenants', icon: Users, roles: ['owner', 'manager'] },
