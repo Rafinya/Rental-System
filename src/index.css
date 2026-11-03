@@ -1,0 +1,51 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    background-color: #0C0E0D;
+    color: #F6F3EC;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, .font-serif {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+  }
+}
+
+/* Custom dark editorial Weena Loft scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #101311;
+}
+::-webkit-scrollbar-thumb {
+  background: #2A312A;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #D4A962;
+}
+
+/* Subtle architectural dark grid pattern */
+.bg-dark-grid {
+  background-image: 
+    linear-gradient(to right, rgba(212, 169, 98, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(212, 169, 98, 0.04) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+/* Print styling */
+@media print {
+  aside, header, nav, .no-print, button {
+    display: none !important;
+  }
+  body, main {
+    background: #FFFFFF !important;
+    color: #000000 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "name": "Weena Loft — Rental Management System",
+  "description": "Premium 3D apartment rental and property management platform for Weena Loft Accommodations, featuring 4-floor architectural visualization, unit tracking, tenant records, and maintenance management.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

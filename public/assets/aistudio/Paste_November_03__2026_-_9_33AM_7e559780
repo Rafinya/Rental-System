@@ -1,0 +1,880 @@
+# WEENA LOFT — PREMIUM 3D APARTMENT RENTAL MANAGEMENT SYSTEM
+## Master Development, UI/UX, Animation and Functionality Specification
+
+Act as a world-class senior full-stack software engineer, product designer, UI/UX specialist, 3D web developer, database architect, and QA engineer.
+
+Your task is to DESIGN AND BUILD a complete, production-minded apartment rental management system for **WEENA LOFT ACCOMMODATIONS**.
+
+This is not a request for a landing page, a static dashboard, or a UI prototype. Build a complete, functional rental management application with a sophisticated visual identity, persistent data, working CRUD operations, reliable validation, responsive layouts, and carefully implemented 3D animations.
+
+The finished product must look like an expensive, custom-designed property management platform created by a premium digital agency.
+
+Do not settle for a generic admin template.
+
+---
+
+# 1. FIRST: INSPECT THE PROJECT AND AVAILABLE TOOLS
+
+Before making any changes:
+
+1. Inspect the entire existing project directory, including source files, package configuration, routing, components, stylesheets, database configuration, environment files, and current dependencies.
+2. Identify the current framework, architecture, and application entry points.
+3. Inspect the plugins, MCP servers, integrations, skills, and other development tools actually available in this Antigravity environment.
+4. Use relevant available UI/UX, frontend development, design, Figma, browser automation, and testing tools when they are genuinely applicable and accessible.
+5. Reuse the existing project architecture where practical. Do not destroy working features or replace the application with a disconnected demo.
+6. If Figma integration is available, use it for design exploration, design tokens, or component references where appropriate. If it is unavailable, implement the design directly in the codebase.
+7. Inspect the supplied reference images and use them as the visual direction:
+   - Reference 1: the Nestive smart-home website screenshot. Study its atmospheric sage-grey background, restrained navigation, elegant editorial typography, large visual hero, translucent interface elements, and balanced composition.
+   - Reference 2: the Weena Loft logo image. Use this as the actual brand reference throughout the application.
+
+Do not assume a plugin is installed simply because it is mentioned in this prompt. Discover what is available, use the relevant tools, and provide an alternative when a tool is unavailable.
+
+Do not stop after inspection. Continue through implementation, testing, and refinement.
+
+# 2. PRODUCT VISION
+
+Product name: Weena Loft Rental Management System.
+
+Brand: Weena Loft Accommodations.
+
+Primary purpose: Give the building owner or authorized property manager one central place to manage a four-floor apartment building, its house numbers, units, tenants, maintenance requests, and occupancy.
+
+The experience should combine:
+
+- Luxury architectural branding.
+- Minimalist, editorial design.
+- Cinematic 3D visuals.
+- Premium dark and light surfaces.
+- Smooth, purposeful animations.
+- A practical, fast property management dashboard.
+- A reliable and maintainable application architecture.
+
+Use the reference website for inspiration, not as a website to copy literally. Create an original property-management experience using its visual principles.
+
+The system is for managing an actual building. Do not build an unrelated smart-home application.
+
+# 3. BRAND IDENTITY AND DESIGN SYSTEM
+
+Use the supplied Weena Loft logo as the primary brand asset.
+
+Locate the uploaded logo in the project's accessible files. If the supplied image is not already in the project, use the exact available attachment or ask for the asset to be added if the environment cannot access it. Do not recreate the logo unnecessarily.
+
+The provided image contains a black textured background and a dimensional gold architectural monogram. Use the logo thoughtfully:
+
+- Login and authentication screen.
+- Main sidebar or top navigation.
+- Loading and initial transition states.
+- Dashboard welcome section.
+- Application favicon or simplified brand mark where appropriate.
+- Reports and print layouts where the logo remains legible.
+
+Do not place the full logo in every component. Use a simplified brand mark in compact navigation areas when appropriate.
+
+## Visual direction
+
+Create a refined combination of two visual themes.
+
+**Theme A — Architectural Sage**
+
+Inspired by the first reference:
+- Muted sage-grey backgrounds.
+- Soft stone and warm-grey surfaces.
+- Off-white typography.
+- Restrained translucent panels.
+- Architectural imagery.
+- Spacious editorial layouts.
+- Delicate borders and soft lighting.
+
+**Theme B — Black and Champagne Gold**
+
+Inspired by the Weena Loft brand:
+- Deep charcoal and textured-black surfaces.
+- Champagne gold and warm metallic accents.
+- Restrained highlights and shadows.
+- Premium typography.
+- Subtle gold separators and architectural line work.
+
+Use these themes harmoniously rather than combining every effect on every screen.
+
+The default dashboard should be elegant, readable, and practical. Use charcoal or deep sage as the primary foundation, warm ivory for contrast, and gold as a selective accent.
+
+Suggested design tokens:
+- Background: #111312
+- Elevated surface: #1B1D1A
+- Secondary surface: #252822
+- Sage accent: #A0A99A
+- Champagne gold: #D6B16B
+- Warm ivory: #F4F0E7
+- Muted text: #A9AAA2
+- Borders: rgba(220, 215, 194, 0.14)
+
+Treat these as starting values. Refine them after viewing the complete interface.
+
+## Typography
+
+Use an elegant editorial serif for major headlines and a clean modern sans-serif for the functional interface.
+
+Suitable combinations include:
+- Cormorant Garamond or Playfair Display for display typography.
+- Inter or Manrope for interface typography.
+
+Use appropriate font weights, line heights, letter spacing, and responsive sizing.
+
+Avoid oversized typography inside data-heavy tables and forms.
+
+## Avoid these design mistakes
+
+- Generic Bootstrap or dashboard-template appearance.
+- Excessive gold gradients.
+- Bright, saturated purple or blue as the primary theme.
+- Excessive glassmorphism.
+- Unnecessary rounded cards everywhere.
+- Huge empty sections that waste dashboard space.
+- Inconsistent padding and typography.
+- Unreadable low-contrast text.
+- Excessive animations that make management tasks slow.
+- Decorative elements that obscure important information.
+- Random stock imagery unrelated to apartments or architecture.
+
+# 4. APPLICATION STRUCTURE
+
+Build a complete application with a clear information architecture.
+
+Required primary navigation:
+
+1. Overview
+2. Building & Floors
+3. Units
+4. Tenants
+5. Repairs & Maintenance
+6. Reports
+7. Settings
+
+Provide an appropriate user profile menu, notifications area, search, and contextual page actions.
+
+Use a persistent sidebar on desktop with a collapsible or compact mode. On mobile, use a suitable drawer or bottom-friendly navigation.
+
+Every navigation item must lead to a functioning page. Do not create dead links or decorative controls.
+
+Include loading states, empty states, validation messages, success notifications, and error handling.
+
+# 5. AUTHENTICATION AND ACCESS CONTROL
+
+Implement a secure authentication flow appropriate for the selected backend.
+
+Required features:
+- Login.
+- Logout.
+- Protected application routes.
+- Authenticated session handling.
+- Password hashing through the authentication framework.
+- Secure authorization checks on the server.
+- A sensible account/profile settings page.
+
+If practical, support role-based permissions:
+- Owner/Administrator: full access.
+- Property Manager: access to authorized management functions.
+- Maintenance Staff: access to assigned maintenance records and relevant unit information.
+
+Do not implement a fake login that accepts any credentials in production mode.
+
+Do not expose sensitive tenant information to unauthorized users.
+
+If the existing application already has authentication, inspect and extend it instead of replacing it unnecessarily.
+
+# 6. FOUR-FLOOR BUILDING MANAGEMENT
+
+The property contains exactly four floors initially.
+
+Create a Building & Floors section that displays all four floors and allows the owner to manage the building structure.
+
+Start with these configurable floor records:
+
+- Floor 1
+- Floor 2
+- Floor 3
+- Floor 4
+
+Do not assume how many units are on each floor. The owner must create the actual units manually.
+
+Each floor should show:
+- Floor name or number.
+- Total units.
+- Occupied units.
+- Vacant units.
+- Units marked for maintenance.
+- Occupancy percentage.
+- A clear visual representation of the units on that floor.
+
+Provide an elegant floor selector and an interactive floor overview.
+
+Selecting a floor should show its actual registered units, not randomly generated examples.
+
+Allow authorized users to:
+- Edit floor labels.
+- Add or edit house-number records.
+- Create units on a selected floor.
+- Open a unit's detailed record.
+- View tenant and maintenance information associated with each unit.
+
+Prevent deletion of a floor that contains units unless the user first resolves those dependencies safely.
+
+Do not silently delete tenant history or repair records when a floor or unit is changed.
+
+# 7. MANUAL HOUSE-NUMBER AND UNIT MANAGEMENT
+
+This is one of the most important features.
+
+Build a dedicated Units page where I can manually create, edit, view, archive, and manage the apartments in my building.
+
+Do not invent a fixed unit count. The application must support whatever number of units I actually register.
+
+## Create Unit form
+
+Include these fields:
+
+- House/unit number — required.
+- Floor — required, selected from the four configured floors.
+- Unit type — configurable, for example studio, bedsitter, one-bedroom, or two-bedroom.
+- Monthly rent — required, in KES.
+- Deposit amount — optional.
+- Unit description — optional.
+- Occupancy status — managed automatically where possible.
+- Availability date — optional.
+- Notes — optional.
+
+If needed, add configurable fields for size, furnishing status, and other property details.
+
+## Unit-number rules
+
+- Each unit must have a unique unit number within the building.
+- Prevent accidental duplicates.
+- Permit numbers such as A01, 101, 1A, and other reasonable formats.
+- Do not assume the unit number necessarily equals the floor number.
+- Make the floor assignment explicit.
+- Allow unit numbers to be edited safely.
+
+## Unit management interface
+
+Provide:
+- A visual unit grid.
+- A searchable, filterable table.
+- Filters by floor, occupancy, and maintenance status.
+- A unit details page or drawer.
+- Edit and archive actions.
+- A tenant assignment action.
+- A repair history section.
+- A record of relevant changes.
+
+Use distinct, accessible status indicators for Vacant, Occupied, and Under Maintenance.
+
+Calculate occupancy from actual unit and tenancy records rather than relying on manually typed totals.
+
+A vacant unit must not automatically be marked occupied without a valid tenant assignment.
+
+# 8. TENANT MANAGEMENT
+
+Build a complete Tenants section.
+
+The owner must be able to register tenants, edit their information, view their records, assign them to units, and maintain an appropriate tenancy history.
+
+## Add Tenant form
+
+Include the following fields.
+
+### Required fields
+- Full name.
+- Phone number.
+- Assigned unit.
+- Tenancy start date.
+
+### Optional fields
+- Email address.
+- National ID or identification document number.
+- Alternative phone number.
+- Emergency contact name.
+- Emergency contact phone.
+- Emergency contact relationship.
+- Occupation.
+- Tenancy agreement reference or document.
+- Monthly rent override, if explicitly needed.
+- Security deposit.
+- Lease end date.
+- Additional notes.
+
+The national ID and email fields MUST NOT be mandatory.
+
+Do not require every optional field to be completed before saving a tenant.
+
+Validate required fields, phone-number formats where practical, dates, and email addresses only when an email address has been supplied.
+
+Provide an appropriate way to attach a tenancy agreement or relevant documents if file storage is implemented securely.
+
+Do not store sensitive identity documents in a publicly accessible directory.
+
+## Tenant list
+
+Provide:
+- Search by tenant name, phone number, or unit number.
+- Filters by floor, unit, and tenancy status.
+- Tenant profile view.
+- Edit tenant details.
+- View current and previous tenancy records.
+- Assign a tenant to a vacant unit.
+- Record a tenant's departure.
+- View associated repair records where appropriate.
+
+Do not permit multiple active tenants to be assigned as primary occupants of the same unit unless a supported shared-occupancy feature is deliberately implemented.
+
+Where a unit becomes vacant, update its occupancy status correctly.
+
+Preserve historical tenancy records when tenants leave.
+
+Do not permanently delete tenant information merely because the person has moved out.
+
+Protect national ID numbers and other sensitive information. Mask sensitive values in list views and reveal them only to authorized users when necessary.
+
+# 9. REPAIRS AND MAINTENANCE MANAGEMENT
+
+Create a fully functional Repairs & Maintenance section.
+
+This must allow the owner or authorized staff to record problems in any unit, classify their impact, assign work, and track repairs until completion.
+
+## New Repair form
+
+Required fields:
+- Repair title.
+- Description of the problem.
+- Associated floor and unit.
+- Impact level.
+- Date reported.
+
+Optional fields:
+- Reporter name.
+- Reporter phone.
+- Assigned maintenance worker.
+- Estimated cost.
+- Actual cost.
+- Repair category.
+- Due date.
+- Completion date.
+- Notes.
+- Supporting images or documents, if secure upload is implemented.
+
+Repair categories may include:
+- Plumbing.
+- Electrical.
+- Structural.
+- Doors and locks.
+- Water supply.
+- Painting.
+- Appliances.
+- Cleaning.
+- Other.
+
+Allow new categories to be added through settings where practical.
+
+## Impact classification
+
+Implement three required levels.
+
+LOW:
+Minor inconvenience with no immediate safety concern. For example, a loose handle or minor cosmetic issue.
+
+MEDIUM:
+A problem that meaningfully affects comfort or normal use and should be addressed promptly. For example, a leaking tap or a faulty non-critical fitting.
+
+HIGH:
+A potentially dangerous issue or a major failure affecting habitability, security, or essential services. For example, exposed electrical wiring or a major water leak.
+
+Use clear labels and distinct accessible visual indicators.
+
+Never rely on color alone to communicate severity.
+
+High-impact repairs must be prominently surfaced on the dashboard and repair queue.
+
+Allow the manager to change impact level when the situation changes, while retaining an audit record.
+
+## Repair status workflow
+
+Implement these statuses:
+- Reported.
+- Acknowledged.
+- In Progress.
+- On Hold.
+- Completed.
+- Cancelled.
+
+Provide a clear status-transition interface.
+
+Record who made important changes and when.
+
+Allow repairs to be filtered by:
+- Impact level.
+- Status.
+- Floor.
+- Unit.
+- Category.
+- Assigned worker.
+- Date reported.
+
+Create a dedicated repair detail page showing the complete repair history, current status, associated unit, notes, and cost information.
+
+Include a repair priority overview on the main dashboard.
+
+Do not automatically close a repair simply because someone opens or edits it.
+
+# 10. MAIN DASHBOARD
+
+Design a premium operational dashboard that immediately tells me how my property is performing.
+
+Use actual database records to calculate the displayed figures.
+
+## Summary metrics
+
+Include:
+- Total registered units.
+- Occupied units.
+- Vacant units.
+- Occupancy rate.
+- Total active tenants.
+- Open repair requests.
+- High-impact repairs.
+- Completed repairs.
+
+Do not invent financial data or display misleading placeholder metrics as real property figures.
+
+When the database is empty, display sensible zero states and clear instructions for registering the building's units.
+
+## Dashboard layout
+
+Suggested composition:
+
+Top section:
+- Weena Loft brand identity.
+- Welcome message.
+- Current date.
+- Search.
+- Notifications.
+- Primary actions: Add Unit, Add Tenant, Report Repair.
+
+Main area:
+- Elegant KPI cards.
+- Building occupancy visualization.
+- Four-floor overview.
+- Recent tenant registrations.
+- Recent repair requests.
+- High-impact repair alerts.
+- Recent activity timeline.
+
+Use clean spacing, subtle shadows, refined borders, and selective gold highlights.
+
+Add useful charts only where they improve understanding.
+
+The dashboard should feel premium but remain practical enough for daily property management.
+
+# 11. REPORTS AND PROPERTY INSIGHTS
+
+Build a Reports page with useful reports generated from actual stored records.
+
+Required reports:
+- Unit inventory.
+- Occupancy by floor.
+- Vacant units.
+- Active tenants.
+- Tenancy history.
+- Repair requests by impact level.
+- Repair requests by status.
+- Maintenance cost summaries, where cost records exist.
+
+Provide date filters where appropriate.
+
+Implement CSV export for relevant datasets.
+
+Provide print-friendly reports and PDF export if the selected stack supports it reliably.
+
+Use consistent column labels, appropriate date formats, and KES currency formatting.
+
+Ensure that exported reports respect user permissions and do not expose sensitive tenant information unnecessarily.
+
+# 12. SETTINGS AND CONFIGURATION
+
+Build a functional settings page.
+
+Include:
+- Property name.
+- Brand logo.
+- Property contact details.
+- Optional address.
+- Default currency: KES.
+- Configurable unit types.
+- Configurable repair categories.
+- User profile settings.
+- Account and security settings.
+- Relevant notification preferences.
+
+Allow the property manager to update reasonable property information without editing source code.
+
+Do not hardcode tenant counts, unit counts, rent amounts, or maintenance statistics.
+
+The building should start with four floors, but unit records must be entered manually.
+
+# 13. THREE.JS AND 3D EXPERIENCE
+
+Use Three.js or React Three Fiber, depending on the existing stack, to build an original, high-quality architectural visual.
+
+The 3D design should take inspiration from the immersive hero composition in the first reference image.
+
+Create a tasteful 3D architectural representation of a modern four-floor apartment building.
+
+The model should communicate the identity of Weena Loft rather than resemble the smart-home building in the reference exactly.
+
+Where practical, include:
+- Four visually distinguishable floors.
+- Architectural massing.
+- Window and balcony details.
+- Warm interior lighting.
+- Soft ambient illumination.
+- Physically plausible materials.
+- Restrained metallic details.
+- Gentle shadows.
+- Subtle camera movement.
+- Optional pointer-responsive parallax.
+- Carefully controlled entrance or window lighting effects.
+
+The 3D building is a visual representation, not the source of truth for the unit database.
+
+If a user selects a floor in the building interface, highlight the corresponding floor in the 3D model when feasible.
+
+If a user selects a unit, show its registered unit number and actual occupancy information when available.
+
+Do not invent unit numbers or pretend that an unregistered unit exists in the database.
+
+## 3D implementation rules
+
+- Prefer a lightweight, custom model or procedural geometry where appropriate.
+- Do not make the entire dashboard dependent on a massive 3D asset.
+- Use optimized materials and geometry.
+- Avoid unnecessary real-time reflections and expensive effects.
+- Lazy-load heavy 3D components.
+- Provide a polished static fallback if WebGL is unavailable.
+- Respect reduced-motion preferences.
+- On mobile, use a simplified model or static architectural image if necessary.
+- Ensure text, navigation, and controls remain usable over or beside the 3D scene.
+
+The 3D experience must enhance the product rather than interfere with everyday operations.
+
+# 14. GSAP AND FRAMER MOTION
+
+Use GSAP and Framer Motion where appropriate and compatible with the existing project.
+
+If the application uses React, use Framer Motion or Motion for React for interface transitions and interaction states, and GSAP for complex timelines or the 3D hero.
+
+If the existing stack differs, select the compatible equivalents without rewriting the entire project unnecessarily.
+
+## GSAP applications
+
+Use GSAP for:
+- Hero entrance timeline.
+- Architectural lighting or camera sequences.
+- Scroll-triggered presentation sections.
+- Carefully controlled parallax.
+- Optional transition sequences between visual states.
+
+Use ScrollTrigger only where it adds genuine value.
+
+## Framer Motion applications
+
+Use Framer Motion for:
+- Page transitions.
+- Modal and drawer entrances.
+- Sidebar expansion.
+- Card interactions.
+- Unit selection.
+- Filter transitions.
+- Small notification animations.
+- Loading transitions.
+- Expandable detail panels.
+
+## Animation quality requirements
+
+Animations must be:
+- Smooth.
+- Purposeful.
+- Consistent.
+- Subtle enough for a management application.
+- Responsive to device capabilities.
+- Accessible.
+- Compatible with reduced-motion preferences.
+
+Avoid animating every element continuously.
+
+Avoid unnecessary layout shifts, excessive blur, and expensive effects on large screens.
+
+Ensure GSAP and Framer Motion do not compete for control of the same element's transforms.
+
+Clean up animation timelines and event listeners when components unmount.
+
+# 15. INTERFACE INTERACTIONS
+
+Every visible control must have a defined purpose and a working behavior.
+
+Examples:
+- Add Unit opens a functioning form.
+- Save Unit validates and persists the record.
+- Edit Unit loads the selected record.
+- Add Tenant opens a functioning tenant form.
+- Assign Tenant updates the tenancy and occupancy records.
+- Report Repair creates a persisted repair.
+- Repair status controls update the record and audit history.
+- Search returns relevant records.
+- Filters affect the displayed dataset.
+- Pagination works if implemented.
+- Export buttons generate real downloadable reports.
+- Notifications open relevant records where appropriate.
+- Confirmation dialogs prevent accidental destructive actions.
+
+Use inline validation and clear success or error feedback.
+
+Do not use browser alerts as the primary interaction design.
+
+Do not use fake buttons, placeholder links, nonfunctional dropdowns, or forms that only change the appearance of the page.
+
+# 16. DATABASE AND BACKEND
+
+Inspect the existing stack and select the most appropriate maintainable architecture.
+
+If the project already uses a suitable framework and database, preserve it where reasonable.
+
+Otherwise, a modern TypeScript/React frontend with a well-supported backend and relational database is a suitable direction.
+
+Recommended data entities:
+
+- User
+- Role or Permission
+- Building
+- Floor
+- Unit
+- Tenant
+- Tenancy
+- Repair
+- RepairUpdate
+- RepairAttachment, if uploads are implemented
+- AuditLog
+- PropertySettings
+
+Establish proper relationships, unique constraints, foreign keys, and indexes.
+
+Use migrations or the existing framework's equivalent database schema management.
+
+Store persistent application data in a real database. Do not rely on React state or localStorage as the primary permanent data store for the actual rental records.
+
+Use server-side validation in addition to frontend validation.
+
+Use database transactions for important multi-record operations, such as assigning a tenant and updating occupancy.
+
+Prevent duplicate unit identifiers and conflicting active primary tenancies.
+
+Handle concurrent edits safely where appropriate.
+
+Never expose database credentials or private environment variables in frontend code.
+
+Use environment variables for secrets and provide a safe example environment file without real credentials.
+
+If a cloud backend is needed, inspect available integrations and configure it only when the necessary credentials and permissions are available.
+
+Do not claim that email, SMS, file uploads, or cloud backups are operational unless they have been configured and tested.
+
+# 17. TENANT DATA AND PRIVACY
+
+Tenant records can contain personal information, including phone numbers and identification numbers.
+
+Implement sensible security practices:
+- Authenticated access.
+- Server-side authorization.
+- Appropriate input validation.
+- Safe database queries.
+- Restricted access to sensitive fields.
+- Secure file storage if documents are supported.
+- Safe error messages.
+- Audit records for important changes.
+- Appropriate data retention and deletion controls.
+
+Never log passwords, full identification numbers, or sensitive document contents unnecessarily.
+
+Use synthetic records for testing, not real personal data.
+
+Design the application with appropriate Kenyan data protection obligations in mind.
+
+# 18. RESPONSIVE DESIGN
+
+The application must work well on:
+- Desktop computers.
+- Laptops.
+- Tablets.
+- Mobile phones.
+
+Desktop should provide the fullest management experience.
+
+On mobile:
+- Tables must remain usable through responsive layouts or horizontal scrolling.
+- Forms should use readable single-column layouts.
+- Navigation should collapse appropriately.
+- Important repair alerts should remain visible.
+- Touch targets should be comfortable to use.
+- 3D effects should be reduced when needed.
+- No horizontal page overflow should occur.
+
+Test common viewport widths rather than assuming desktop CSS will work everywhere.
+
+# 19. PERFORMANCE AND ACCESSIBILITY
+
+Optimize the application for reliable everyday use.
+
+Requirements:
+- Lazy-load 3D scenes and heavy assets.
+- Avoid unnecessary rerenders.
+- Use efficient queries and pagination when appropriate.
+- Compress and optimize images.
+- Avoid large animation libraries or effects where they add no value.
+- Provide loading indicators for asynchronous operations.
+- Handle backend errors gracefully.
+- Use semantic HTML.
+- Associate labels with inputs.
+- Support keyboard navigation.
+- Provide visible focus indicators.
+- Maintain sufficient contrast.
+- Respect reduced-motion preferences.
+
+Target smooth performance on ordinary laptops and mobile devices, not only high-end computers.
+
+# 20. VISUAL QUALITY AND DESIGN REVIEW
+
+Before considering the design complete, inspect the actual rendered application in a browser.
+
+Compare the visual result against the supplied references.
+
+Ask the following questions:
+- Does the design feel as premium as the visual references?
+- Does the Weena Loft branding feel authentic and consistent?
+- Does the first screen have a strong visual focal point?
+- Is the typography elegant without compromising usability?
+- Are the four floors understandable at a glance?
+- Are unit statuses easy to distinguish?
+- Are forms spacious and professional?
+- Are tables and filters polished?
+- Do animations feel smooth rather than distracting?
+- Does the design remain coherent on mobile?
+
+Refine the implementation based on the actual rendered result.
+
+Do not merely state that the design is beautiful. Inspect it, identify weaknesses, and improve them.
+
+# 21. TESTING AND ACCEPTANCE CRITERIA
+
+The application is not complete until the following workflows have been tested.
+
+## Building and unit tests
+1. The application starts successfully.
+2. The four initial floors appear.
+3. I can create a unit on any of the four floors.
+4. Duplicate unit numbers are rejected appropriately.
+5. Unit edits persist after refreshing.
+6. Vacant and occupied statuses reflect actual tenancy records.
+
+## Tenant tests
+1. I can create a tenant with a name, phone number, unit, and tenancy start date.
+2. I can save a tenant without an email address.
+3. I can save a tenant without an ID number.
+4. Invalid supplied email addresses are rejected.
+5. Assigning a tenant updates the correct unit.
+6. Conflicting active primary tenancies are prevented.
+7. Tenant edits persist after refreshing.
+8. Ending a tenancy preserves its history and updates occupancy correctly.
+
+## Repair tests
+1. I can create a repair and associate it with a unit.
+2. Low, Medium, and High impact levels are supported.
+3. Status changes persist.
+4. Filters work correctly.
+5. High-impact repairs appear in the appropriate dashboard area.
+6. Completed repairs retain their history and recorded costs.
+7. Repair records remain associated with the correct unit.
+
+## Reporting and security tests
+1. Dashboard metrics reflect actual database data.
+2. Search and filters return correct results.
+3. CSV exports contain the expected records.
+4. Protected pages require authentication.
+5. Unauthorized requests are rejected on the server.
+6. Invalid inputs are handled safely.
+7. Important changes do not silently erase historical records.
+
+## Visual and technical tests
+1. Desktop layout renders correctly.
+2. Mobile layout renders correctly.
+3. Navigation links work.
+4. Modals and forms work.
+5. No major console errors remain.
+6. No unresolved critical build errors remain.
+7. The 3D scene loads and has an appropriate fallback.
+8. Animations do not prevent normal interactions.
+9. Reduced-motion preferences are respected.
+
+Use the available browser automation and testing tools where possible.
+
+Fix issues discovered during testing. Do not report a test as passed if it has not actually been executed.
+
+# 22. DEVELOPMENT WORKFLOW
+
+Work through these stages in order.
+
+Stage 1: Inspect the existing repository and available development tools.
+
+Stage 2: Establish the application architecture, data model, design tokens, navigation, and implementation plan.
+
+Stage 3: Implement authentication, database schema, migrations, and backend operations.
+
+Stage 4: Build the application shell and complete design system.
+
+Stage 5: Implement Building & Floors and Units.
+
+Stage 6: Implement Tenants and tenancy lifecycle management.
+
+Stage 7: Implement Repairs & Maintenance.
+
+Stage 8: Implement the dashboard, reports, settings, and search.
+
+Stage 9: Add Three.js architectural visuals, GSAP timelines, and Framer Motion interactions.
+
+Stage 10: Perform responsive, accessibility, functional, and security checks.
+
+Stage 11: Run the application, inspect the rendered pages, fix defects, and refine the design.
+
+Stage 12: Provide a concise completion report describing what works, the database configuration, how to start the application, any remaining setup requirements, and the tests actually performed.
+
+Do not stop after producing a plan or creating the first few components. Continue implementation until the usable system is complete or a genuine external blocker prevents further work.
+
+If a task is too large for one pass, work in small, verified stages and preserve progress between stages.
+
+# 23. FINAL NON-NEGOTIABLE RULES
+
+- Build the actual rental management application, not a marketing website.
+- Use the supplied Weena Loft logo as the brand reference.
+- Use the first reference for visual direction, not literal duplication.
+- Support four floors initially.
+- Allow the owner to manually create the real unit inventory.
+- Make tenant email and ID number optional.
+- Include complete repair tracking with Low, Medium, and High impact levels.
+- Persist data in a proper backend and database.
+- Use Three.js and GSAP/Framer Motion where compatible and useful.
+- Inspect and use relevant installed development plugins and integrations.
+- Do not invent unavailable plugin capabilities or external credentials.
+- Do not replace real functionality with hardcoded sample metrics.
+- Do not overwrite working project files recklessly.
+- Do not leave major buttons or pages unfinished.
+- Do not claim completion without testing.
+- Do not sacrifice usability for animation.
+- Keep the design premium, architectural, distinctive, and unmistakably Weena Loft.
+
+**Begin by inspecting the existing project and reference assets. Then implement the complete system in the current project directory. Make sound engineering decisions independently, document assumptions, and prioritize a working, secure, visually exceptional application.**
